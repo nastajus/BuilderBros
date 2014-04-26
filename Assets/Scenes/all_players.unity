@@ -1416,7 +1416,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: .0500000007
-  m_GravityScale: 1
+  m_GravityScale: 1.14999998
   m_FixedAngle: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -1851,7 +1851,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: .0500000007
-  m_GravityScale: 1
+  m_GravityScale: 1.14999998
   m_FixedAngle: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -13894,7 +13894,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: .0500000007
-  m_GravityScale: 1
+  m_GravityScale: 1.14999998
   m_FixedAngle: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -15235,6 +15235,10 @@ Prefab:
     - target: {fileID: 100006, guid: a6d28c5967d30e44eb6425d3c98a8a3e, type: 2}
       propertyPath: m_Name
       value: Explorer
+      objectReference: {fileID: 0}
+    - target: {fileID: 5000000, guid: a6d28c5967d30e44eb6425d3c98a8a3e, type: 2}
+      propertyPath: m_GravityScale
+      value: 1.14999998
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a6d28c5967d30e44eb6425d3c98a8a3e, type: 2}
@@ -39098,6 +39102,10 @@ Prefab:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5000000, guid: e45a26efbd9267844b5d26cac0190eeb, type: 2}
+      propertyPath: m_GravityScale
+      value: 1.14999998
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e45a26efbd9267844b5d26cac0190eeb, type: 2}
   m_RootGameObject: {fileID: 53088161}
@@ -43154,6 +43162,10 @@ Prefab:
     - target: {fileID: 400006, guid: c2796d052848b904c90805d61488f5f5, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5000000, guid: c2796d052848b904c90805d61488f5f5, type: 2}
+      propertyPath: m_GravityScale
+      value: 1.14999998
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c2796d052848b904c90805d61488f5f5, type: 2}

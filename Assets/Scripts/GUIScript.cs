@@ -57,7 +57,7 @@ public class GUIScript : MonoBehaviour {
 		itemFullFolderPaths.Add ( Application.dataPath + "/Resources/Tiles/" );
 		itemFullFolderPaths.Add ( Application.dataPath + "/Resources/Special/" );
 		itemFullFolderPaths.Add ( Application.dataPath + "/Resources/New/" );
-		itemFullFolderPaths.Add ( Application.dataPath + "/Resources/Meta/" );
+		//itemFullFolderPaths.Add ( Application.dataPath + "/Resources/Meta/" );
 
 		//List<string> itemFiles = new List<string>();
 		string[] rawItemFiles;

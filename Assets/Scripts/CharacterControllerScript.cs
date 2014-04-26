@@ -48,9 +48,9 @@ public class CharacterControllerScript : MonoBehaviour {
 			rigidbody2D.velocity = new Vector2( move * maxSpeed, rigidbody2D.velocity.y);
 		}
 
-		if (move > 0 && !facingRight && grounded){
+		if (move > 0 && !facingRight){
 			Flip();
-		} else if (move < 0 && facingRight && grounded){
+		} else if (move < 0 && facingRight){
 			Flip();
 		}
 

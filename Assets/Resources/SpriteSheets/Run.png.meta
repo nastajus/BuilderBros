@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3c0b31bff926a784e9532720cc5cff4f
+guid: e3a37f22788833f468d4c1ed6d0ea217
 TextureImporter:
   serializedVersion: 2
   mipmaps:
@@ -21,7 +21,7 @@ TextureImporter:
   generateCubemap: 0
   seamlessCubemap: 0
   textureFormat: -1
-  maxTextureSize: 1024
+  maxTextureSize: 4096
   textureSettings:
     filterMode: -1
     aniso: 1
@@ -44,96 +44,6 @@ TextureImporter:
     textureFormat: -2
     compressionQuality: 50
   spriteSheet:
-    sprites:
-    - name: Run_6
-      rect:
-        serializedVersion: 2
-        x: 429
-        y: 3893
-        width: 728
-        height: 663
-      alignment: 7
-      pivot: {x: .5, y: 0}
-    - name: Run_7
-      rect:
-        serializedVersion: 2
-        x: 2263
-        y: 3925
-        width: 658
-        height: 658
-      alignment: 7
-      pivot: {x: .5, y: 0}
-    - name: Run_8
-      rect:
-        serializedVersion: 2
-        x: 3984
-        y: 3920
-        width: 679
-        height: 647
-      alignment: 7
-      pivot: {x: .5, y: 0}
-    - name: Run_9
-      rect:
-        serializedVersion: 2
-        x: 537
-        y: 2673
-        width: 577
-        height: 680
-      alignment: 7
-      pivot: {x: .5, y: 0}
-    - name: Run_10
-      rect:
-        serializedVersion: 2
-        x: 2387
-        y: 2668
-        width: 442
-        height: 712
-      alignment: 7
-      pivot: {x: .5, y: 0}
-    - name: Run_11
-      rect:
-        serializedVersion: 2
-        x: 4053
-        y: 2668
-        width: 594
-        height: 685
-      alignment: 7
-      pivot: {x: .5, y: 0}
-    - name: Run_12
-      rect:
-        serializedVersion: 2
-        x: 634
-        y: 1503
-        width: 442
-        height: 739
-      alignment: 7
-      pivot: {x: .5, y: 0}
-    - name: Run_13
-      rect:
-        serializedVersion: 2
-        x: 2263
-        y: 1627
-        width: 641
-        height: 625
-      alignment: 7
-      pivot: {x: .5, y: 0}
-    - name: Run_14
-      rect:
-        serializedVersion: 2
-        x: 4129
-        y: 1503
-        width: 469
-        height: 674
-      alignment: 7
-      pivot: {x: .5, y: 0}
-    - name: Run_15
-      rect:
-        serializedVersion: 2
-        x: 631
-        y: 343
-        width: 445
-        height: 723
-      alignment: 7
-      pivot: {x: .5, y: 0}
+    sprites: []
   spritePackingTag: 
   userData: 

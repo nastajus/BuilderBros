@@ -36,8 +36,17 @@ public class CharacterControllerScript : MonoBehaviour {
 		float move = Input.GetAxis("Horizontal"); 
 		anim.SetFloat("Speed", Mathf.Abs(move));
 
-		if (!sidecollided)
+		//if (!sidecollided)
+		//	rigidbody2D.velocity = new Vector2( move * maxSpeed, rigidbody2D.velocity.y);
+
+		if (sidecollided && !grounded)
+		{
+			rigidbody2D.velocity = new Vector2( 0 , rigidbody2D.velocity.y);
+		}
+		else
+		{
 			rigidbody2D.velocity = new Vector2( move * maxSpeed, rigidbody2D.velocity.y);
+		}
 
 		if (move > 0 && !facingRight && grounded){
 			Flip();

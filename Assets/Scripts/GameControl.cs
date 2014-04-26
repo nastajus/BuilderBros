@@ -32,27 +32,26 @@ public class GameControl : MonoBehaviour {
 		}
 
 
+		//PointsRemaining = PointsMax;
+		//CurrentMode = GameState.TestMode;
 
-		PointsRemaining = PointsMax;
-		CurrentMode = GameState.TestMode;
-
-	}
-	
-	void OnGUI(){
-		//update mode here???? ???  
-		//GUI.Label(new Rect(10,10,100,30), "PointsRemaining: " + PointsRemaining);
-
-
+		Load();
 
 	}
-	
+
+	void OnApplicationQuit() {
+		Debug.Log ("saving should be happening.");
+		Save();
+	}
+
+
 	public void Save(){
 		BinaryFormatter bf = new BinaryFormatter();
 		FileStream file = File.Create(Application.persistentDataPath + "/gameInfo.dat");
 		
 		GameData data = new GameData();
 		data.PointsRemaining = PointsRemaining;
-		data.CurrentMode = CurrentMode;
+		//data.CurrentMode = CurrentMode;
 		
 		bf.Serialize(file, data);
 		file.Close();
@@ -66,7 +65,7 @@ public class GameControl : MonoBehaviour {
 			file.Close ();
 			
 			PointsRemaining = data.PointsRemaining;
-			CurrentMode = data.CurrentMode;
+			//CurrentMode = data.CurrentMode;
 		}
 	}
 }

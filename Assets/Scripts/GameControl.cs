@@ -6,61 +6,67 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
 
-public enum GameState { Splash, BuildMode, PlayMode, Results, Credits }; 
+public enum GameState { Splash, BuildMode, TestMode, PlayerMode, Results, Credits }; 
 
 
 
 public class GameControl : MonoBehaviour {
 
-	public static GameControl control;
-	public GameState mode = GameState.Splash;
-	public Dictionary<GameState, string> ModeNames;
-	public float health;
-	public float experience;
-	
+	public static GameControl instance;
+	public static Dictionary<GameState, string> ModeNames = new Dictionary<GameState, string>()
+	{
+		{ GameState.BuildMode, "BUILD MODE" },
+		{ GameState.TestMode, "TEST MODE" },
+	};
+	public GameState CurrentMode;
+	public int PointsRemaining;
+	public const int PointsMax = 12000;
+
 	void Awake() {
-		if(control==null){
+		if(instance==null){
 			DontDestroyOnLoad(gameObject);
-			control = this;
+			instance = this;
 		}
-		else if (control != this){
+		else if (instance != this){
 			Destroy(gameObject);
 		}
 
-		ModeNames = new Dictionary<GameState, string>()
-		{
-			{ GameState.BuildMode, "BUILD MODE" },
-			{ GameState.PlayMode, "PLAY MODE" },
-		};
+
+
+		PointsRemaining = PointsMax;
+		CurrentMode = GameState.TestMode;
+
 	}
 	
 	void OnGUI(){
-		//update mode here???? ??? 
-		GUI.Label(new Rect(10,10,100,30), "Health: " + health);
-		GUI.Label(new Rect(10,40,150,30), "Experience: " + experience);
+		//update mode here???? ???  
+		//GUI.Label(new Rect(10,10,100,30), "PointsRemaining: " + PointsRemaining);
+
+
+
 	}
 	
 	public void Save(){
 		BinaryFormatter bf = new BinaryFormatter();
-		FileStream file = File.Create(Application.persistentDataPath + "/playerInfo.dat");
+		FileStream file = File.Create(Application.persistentDataPath + "/gameInfo.dat");
 		
 		GameData data = new GameData();
-		data.health = health;
-		data.experience = experience;
+		data.PointsRemaining = PointsRemaining;
+		data.CurrentMode = CurrentMode;
 		
 		bf.Serialize(file, data);
 		file.Close();
 	}
 	
 	public void Load(){
-		if (  File.Exists (Application.persistentDataPath + "/playerInfo.dat") ){
+		if (  File.Exists (Application.persistentDataPath + "/gameInfo.dat") ){
 			BinaryFormatter bf = new BinaryFormatter();
-			FileStream file = File.Open (Application.persistentDataPath + "/playerInfo.dat", FileMode.Open);
+			FileStream file = File.Open (Application.persistentDataPath + "/gameInfo.dat", FileMode.Open);
 			GameData data = (GameData)bf.Deserialize(file);
 			file.Close ();
 			
-			health = data.health;
-			experience = data.experience;
+			PointsRemaining = data.PointsRemaining;
+			CurrentMode = data.CurrentMode;
 		}
 	}
 }
@@ -68,6 +74,6 @@ public class GameControl : MonoBehaviour {
 [Serializable]
 class GameData{
 
-	public float health;
-	public float experience;
+	public GameState CurrentMode;
+	public int PointsRemaining;
 }

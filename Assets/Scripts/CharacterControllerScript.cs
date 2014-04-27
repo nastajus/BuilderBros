@@ -39,36 +39,39 @@ public class CharacterControllerScript : MonoBehaviour {
 		//if (!sidecollided)
 		//	rigidbody2D.velocity = new Vector2( move * maxSpeed, rigidbody2D.velocity.y);
 
-		if (sidecollided && !grounded)
-		{
-			rigidbody2D.velocity = new Vector2( 0 , rigidbody2D.velocity.y);
-		}
-		else
-		{
-			rigidbody2D.velocity = new Vector2( move * maxSpeed, rigidbody2D.velocity.y);
-		}
+		//if (GameControl.instance.CurrentMode != State.ReadyToStartMode){ 
+			if (sidecollided && !grounded)
+			{
+				rigidbody2D.velocity = new Vector2( 0 , rigidbody2D.velocity.y);
+			}
+			else
+			{
+				rigidbody2D.velocity = new Vector2( move * maxSpeed, rigidbody2D.velocity.y);
+			}
 
-		if (move > 0 && !facingRight){
-			Flip();
-		} else if (move < 0 && facingRight){
-			Flip();
-		}
+			if (move > 0 && !facingRight){
+				Flip();
+			} else if (move < 0 && facingRight){
+				Flip();
+			}
+		//}
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if (grounded && Input.GetKeyDown(KeyCode.Space)){
-			anim.SetBool ("Ground", false);
-			rigidbody2D.AddForce(new Vector2(0, jumpForce)); 
-		}
-	
-		if (!grounded && Input.GetKey(KeyCode.Space)){
-			//anim.SetBool ("Ground", false);
-			rigidbody2D.AddForce(new Vector2(0, jumpForce / 50.0f)); 
-		}
-
+		//if (GameControl.instance.CurrentMode != State.ReadyToStartMode){
+			if (grounded && Input.GetKeyDown(KeyCode.Space)){
+				anim.SetBool ("Ground", false);
+				rigidbody2D.AddForce(new Vector2(0, jumpForce)); 
+			}
+		
+			if (!grounded && Input.GetKey(KeyCode.Space)){
+				//anim.SetBool ("Ground", false);
+				rigidbody2D.AddForce(new Vector2(0, jumpForce / 50.0f)); 
+			}
+		//}
 	}
 
 

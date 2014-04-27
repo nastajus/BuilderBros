@@ -34,14 +34,12 @@ public class GUIScript : MonoBehaviour {
 	Vector2 toolboxPosition;
 	Vector2 toolboxContentsSize;
 	string toolboxTitle = "ITEM SELECTOR";
-	string modeMode = "BUILD MODE"; //TODO move
 	int innerMargin = 10;
 	int borderSize = 7;
 
 	private Vector2 scrollPosition = Vector2.zero;
 	private float scrollMovement;
 
-	
 	void Awake (){
 
 		//various initializations
@@ -57,7 +55,7 @@ public class GUIScript : MonoBehaviour {
 		itemFullFolderPaths.Add ( Application.dataPath + "/Resources/Tiles/" );
 		itemFullFolderPaths.Add ( Application.dataPath + "/Resources/Special/" );
 		itemFullFolderPaths.Add ( Application.dataPath + "/Resources/New/" );
-		//itemFullFolderPaths.Add ( Application.dataPath + "/Resources/Meta/" );
+		itemFullFolderPaths.Add ( Application.dataPath + "/Resources/Meta/" );
 
 		//List<string> itemFiles = new List<string>();
 		string[] rawItemFiles;
@@ -80,7 +78,7 @@ public class GUIScript : MonoBehaviour {
 
 		itemboxSize = new Vector2( 100, 100 );
 		toolboxSize = new Vector2( 350, itemboxSize.y + 100 );
-		toolboxPosition = new Vector2 ( (float)outerMargin, Screen.height - toolboxSize.y - outerMargin );
+		toolboxPosition = new Vector2 ( Screen.width - toolboxSize.x - outerMargin, (float)outerMargin ); 
 		toolboxContentsSize = new Vector2( sprites.Count * itemboxSize.x, itemboxSize.y );
 		scrollMovement = (itemboxSize.x + innerMargin) *3.33f; //80f;
 
@@ -96,9 +94,11 @@ public class GUIScript : MonoBehaviour {
 		GUI.skin = MenuSkin;
 		GUI.skin.box.fontSize = 20;
 
-		//GUI.Box
+		Vector2 metricPosition = new Vector2( outerMargin, outerMargin );
+		Vector2 metricSize = GUI.skin.label.CalcSize ( new GUIContent( "POINTS: " + GameControl.PointsMax ) );	//this is the larger of this or time
+		metricSize = new Vector2( metricSize.x + (float)(myMP.left + myMP.right)*2, metricSize.y );
 
-		if (GameControl.instance.CurrentMode == GameState.BuildMode || GameControl.instance.CurrentMode == GameState.TestMode) {
+		if (GameControl.instance.CurrentMode == State.BuildMode || GameControl.instance.CurrentMode == State.TestMode) {
 
 
 
@@ -161,36 +161,100 @@ public class GUIScript : MonoBehaviour {
 			//GUI.EndScrollView();
 
 
-
-			Vector2 modeSize = GUI.skin.label.CalcSize ( new GUIContent( GameControl.ModeNames[GameControl.instance.CurrentMode] ) ); 
+			string modeText =  GameControl.PlayerToString[GameControl.instance.CurrentPlayer] + "\n" + GameControl.ModeNames[GameControl.instance.CurrentMode];
+			Vector2 modeSize = GUI.skin.label.CalcSize ( new GUIContent( modeText ) ); 
 			modeSize = new Vector2( modeSize.x + (float)(myMP.left + myMP.right)*2, modeSize.y );
 			Vector2 modePosition = new Vector2( Screen.width/2 - modeSize.x/2, outerMargin );
-			GUI.Box (new Rect(modePosition.x, modePosition.y, modeSize.x, modeSize.y), modeMode);
+			GUI.Box (new Rect(modePosition.x, modePosition.y, modeSize.x, modeSize.y), modeText);
 
 
 
-			Vector2 pointsSize = GUI.skin.label.CalcSize ( new GUIContent( "POINTS: " + GameControl.PointsMax ) );
-			pointsSize = new Vector2( pointsSize.x + (float)(myMP.left + myMP.right)*2, pointsSize.y );
-			Vector2 pointsPosition = new Vector2( outerMargin, outerMargin );
-			GUI.Box (new Rect(pointsPosition.x, pointsPosition.y, pointsSize.x, pointsSize.y), "POINTS: " + GameControl.instance.PointsRemaining );
+
+			if ( GameControl.instance.CurrentMode == State.BuildMode || GameControl.instance.CurrentMode == State.TestMode ){
+				GUI.Box (new Rect(metricPosition.x, metricPosition.y, metricSize.x, metricSize.y), "POINTS: " + GameControl.instance.PointsRemaining );
+			}
 
 
-			Vector2 testButtonSize = GUI.skin.button.CalcSize( new GUIContent( GameControl.ModeNames[ GameState.TestMode ] ));
+
+			Vector2 testButtonSize = GUI.skin.button.CalcSize( new GUIContent( "SWITCH TO: \n" + GameControl.ModeNames[ State.TestMode ] ));
 			testButtonSize = new Vector2( testButtonSize.x + (float)(myMP.left + myMP.right)*2, testButtonSize.y );
-			Vector2 buildButtonSize = GUI.skin.button.CalcSize( new GUIContent( GameControl.ModeNames[ GameState.BuildMode ] ));
+			Vector2 buildButtonSize = GUI.skin.button.CalcSize( new GUIContent( "SWITCH TO: \n" + GameControl.ModeNames[ State.BuildMode ] ));
 			buildButtonSize = new Vector2( buildButtonSize.x + (float)(myMP.left + myMP.right)*2, buildButtonSize.y );
 			Vector2 modeSwitchSize;
-			if ( GameControl.instance.CurrentMode == GameState.BuildMode ){
-				modeSwitchSize = buildButtonSize;
-			}
-			else if ( GameControl.instance.CurrentMode == GameState.TestMode ){
+			if ( GameControl.instance.CurrentMode == State.BuildMode ){
 				modeSwitchSize = testButtonSize;
 			}
+			else if ( GameControl.instance.CurrentMode == State.TestMode ){
+				modeSwitchSize = buildButtonSize;
+			}
 			else { 
-				modeSwitchSize = buildButtonSize; 
+				modeSwitchSize = testButtonSize; 
 			}
 			Vector2 modeSwitchPosition = new Vector2( Screen.width - modeSwitchSize.x - outerMargin, Screen.height - modeSwitchSize.y - outerMargin );
-			GUI.Box (new Rect(modeSwitchPosition.x, modeSwitchPosition.y, modeSwitchSize.x, modeSwitchSize.y), GameControl.ModeNames[GameControl.instance.CurrentMode]);
+			if ( GUI.Button (new Rect(modeSwitchPosition.x, modeSwitchPosition.y, modeSwitchSize.x, modeSwitchSize.y), "SWITCH TO: \n" + GameControl.ModeNames[GameControl.instance.CurrentMode]) ) {
+				GameControl.instance.OppositeMode();
+			}
+
+			/*
+			if(rectModeSwitch.Contains(Event.current.mouseDown))
+				//Debug.Log("rectModeSwitch");
+				Debug.Log ( Event.current );
+			else
+				Debug.Log("no rect");
+
+			*/
+
+		}
+
+		else if ( GameControl.instance.CurrentMode == State.ReadyToStartMode ){
+			//Vector2 readyToStartBoxSize = new Vector2 ( 300, 200 ); 
+			string textBlahBlah = GameControl.ModeNames[ State.ReadyToStartMode ] + "\n" + GameControl.PlayerToString[GameControl.instance.NextPlayer] + "? \n\n" + "PRESS " + GameControl.SemanticToKeyStr[ SemanticAction.EnterMenu ] + "\nWHEN READY";
+			Vector2 readyToStartBoxSize = GUI.skin.box.CalcSize( new GUIContent( textBlahBlah ));
+			readyToStartBoxSize = new Vector2( readyToStartBoxSize.x + (float)(myMP.left + myMP.right)*2, readyToStartBoxSize.y );
+			Vector2 readyToStartBoxPosition = new Vector2 ( Screen.width/2 - readyToStartBoxSize.x/2, Screen.height/2 - readyToStartBoxSize.y/2 );
+			GUI.Box (new Rect(readyToStartBoxSize.x, readyToStartBoxSize.y, readyToStartBoxPosition.x, readyToStartBoxPosition.y), textBlahBlah );
+		}
+
+		else if ( GameControl.instance.CurrentMode == State.PlayerMode ) {
+			int roundedUsedSeconds = Mathf.FloorToInt(GameControl.instance.TimeUsed);
+			int displaySeconds = roundedUsedSeconds % 60;
+			int displayMinutes = roundedUsedSeconds / 60; 
+			string text = string.Format ("{0}:{1:00}", displayMinutes, displaySeconds); 
+			GUI.Box (new Rect(metricPosition.x, metricPosition.y, metricSize.x, metricSize.y), "TIME: " + text );
+
+			string modeText =  "GO: " + GameControl.PlayerToString[GameControl.instance.CurrentPlayer] + "!!";
+			Vector2 modeSize = GUI.skin.label.CalcSize ( new GUIContent( modeText ) ); 
+			modeSize = new Vector2( modeSize.x + (float)(myMP.left + myMP.right)*2, modeSize.y );
+			Vector2 modePosition = new Vector2( Screen.width/2 - modeSize.x/2, outerMargin );
+			GUI.Box (new Rect(modePosition.x, modePosition.y, modeSize.x, modeSize.y), modeText);
+
+		}
+
+
+
+	}
+
+
+	void Update(){
+
+		GameControl.instance.TimeUsed = Time.time - GameControl.instance.StartTime;
+
+		//conditions that affect this OnGUI on next frame
+		if (Input.GetKeyDown( GameControl.SemanticToKey[ SemanticAction.EnterMenu ] ) && GameControl.instance.CurrentMode != State.ReadyToStartMode && GameControl.instance.NextPlayer != Player.None ){
+			GameControl.instance.PreviousMode = GameControl.instance.CurrentMode;
+			GameControl.instance.CurrentMode = State.ReadyToStartMode;
+		}
+		else if (Input.GetKeyDown( GameControl.SemanticToKey[ SemanticAction.EnterMenu ] ) && GameControl.instance.CurrentMode == State.ReadyToStartMode ){
+			GameControl.instance.SetNextPlayer();
+			GameControl.instance.CurrentMode = State.PlayerMode;
+			GameControl.instance.StartTime = Time.time;
+			Destroyer.ReloadLevel();
+		}
+		else if (Input.GetKeyDown( GameControl.SemanticToKey[ SemanticAction.Cancel ] ) && GameControl.instance.CurrentMode == State.ReadyToStartMode ){
+			GameControl.instance.CurrentMode = GameControl.instance.PreviousMode;
+		}
+		else if ( Input.GetKeyDown( GameControl.SemanticToKey[ SemanticAction.SwitchMode ] )  && (GameControl.instance.CurrentMode == State.BuildMode || GameControl.instance.CurrentMode == State.TestMode) ){
+			GameControl.instance.OppositeMode();
 		}
 
 	}

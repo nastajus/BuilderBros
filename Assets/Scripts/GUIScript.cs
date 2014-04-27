@@ -69,7 +69,7 @@ public class GUIScript : MonoBehaviour {
 		GUI.skin.box.fontSize = 20;
 
 		Vector2 metricPosition = new Vector2( outerMargin, outerMargin );
-		Vector2 metricSize = GUI.skin.label.CalcSize ( new GUIContent( "POINTS: " + GameControl.PointsMax ) );	//this is the larger of this or time
+		Vector2 metricSize = GUI.skin.box.CalcSize ( new GUIContent( "POINTS: " + GameControl.PointsMax ) );	//this is the larger of this or time
 		metricSize = new Vector2( metricSize.x + (float)(myMP.left + myMP.right)*2, metricSize.y );
 
 		if (GameControl.instance.CurrentMode == State.BuildMode || GameControl.instance.CurrentMode == State.TestMode) {
@@ -136,7 +136,7 @@ public class GUIScript : MonoBehaviour {
 
 
 			string modeText =  GameControl.PlayerToString[GameControl.instance.CurrentPlayer] + "\n" + GameControl.ModeNames[GameControl.instance.CurrentMode];
-			Vector2 modeSize = GUI.skin.label.CalcSize ( new GUIContent( modeText ) ); 
+			Vector2 modeSize = GUI.skin.box.CalcSize ( new GUIContent( modeText ) ); 
 			modeSize = new Vector2( modeSize.x + (float)(myMP.left + myMP.right)*2, modeSize.y );
 			Vector2 modePosition = new Vector2( Screen.width/2 - modeSize.x/2, outerMargin );
 			GUI.Box (new Rect(modePosition.x, modePosition.y, modeSize.x, modeSize.y), modeText);
@@ -197,12 +197,14 @@ public class GUIScript : MonoBehaviour {
 			GUI.Box (new Rect(metricPosition.x, metricPosition.y, metricSize.x, metricSize.y), "TIME: " + text );
 
 			string modeText =  "GO: " + GameControl.PlayerToString[GameControl.instance.CurrentPlayer] + "!!";
-			Vector2 modeSize = GUI.skin.label.CalcSize ( new GUIContent( modeText ) ); 
+			Vector2 modeSize = GUI.skin.box.CalcSize ( new GUIContent( modeText ) ); 
 			modeSize = new Vector2( modeSize.x + (float)(myMP.left + myMP.right)*2, modeSize.y );
 			Vector2 modePosition = new Vector2( Screen.width/2 - modeSize.x/2, outerMargin );
 			GUI.Box (new Rect(modePosition.x, modePosition.y, modeSize.x, modeSize.y), modeText);
 
 		}
+
+		//else if ( GameControl.instance.CurrentMode == State.PlayerMode && col
 
 
 

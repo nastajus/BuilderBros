@@ -3,14 +3,15 @@ using System.Collections;
 
 public class LevelStartMarker : MonoBehaviour {	
 
-	public GameObject Player;
+	private GameObject Player;
 
 	void Awake(){
+		Player = GameObject.FindWithTag("Player");
 		if (Player != null){
 			Player.transform.position = transform.position;
 		}
 		else{
-			Debug.Log ("Level Start Marker needs Player attached");
+			Debug.Log ("Level needs Player");
 		}
 	}
 

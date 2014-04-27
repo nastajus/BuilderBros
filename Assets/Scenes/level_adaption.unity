@@ -11349,11 +11349,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: b4fd29621263e90469cdd823172ad2be, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 5.2285614
+      value: 61.3471832
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: b4fd29621263e90469cdd823172ad2be, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 2.59437203
+      value: 2.78142738
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: b4fd29621263e90469cdd823172ad2be, type: 2}
       propertyPath: m_LocalPosition.z
@@ -11854,7 +11854,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5764350b08dbf4b4fa6089747824e671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 1749811180}
 --- !u!212 &632515875
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11886,7 +11885,7 @@ Transform:
   m_PrefabInternal: {fileID: 595124047}
   m_GameObject: {fileID: 632515873}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.2285614, y: 2.59437203, z: 0}
+  m_LocalPosition: {x: 61.3471832, y: 2.78142738, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -17311,7 +17310,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a69a5481e1b4a424685c0b587edefbc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 1749811180}
 --- !u!212 &881111595
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -37142,7 +37140,7 @@ GameObject:
   - 50: {fileID: 1749811185}
   - 114: {fileID: 1749811186}
   m_Layer: 11
-  m_Name: Character
+  m_Name: Builder
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -3,11 +3,12 @@ using System.Collections;
 
 public class LevelExitMarker : MonoBehaviour {
 
-	public GameObject Player;
+	private GameObject Player;
 	
 	void Awake(){
+		Player = GameObject.FindWithTag("Player");
 		if (Player == null){
-			Debug.Log ("Level Exit Marker needs Player attached");
+			Debug.Log ("Level needs Player");
 		}
 	}
 

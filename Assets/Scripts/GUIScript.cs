@@ -182,11 +182,11 @@ public class GUIScript : MonoBehaviour {
 
 		else if ( GameControl.instance.CurrentMode == State.ReadyToStartMode ){
 			//Vector2 readyToStartBoxSize = new Vector2 ( 300, 200 ); 
-			string textBlahBlah = GameControl.ModeNames[ State.ReadyToStartMode ] + "\n" + GameControl.PlayerToString[GameControl.instance.NextPlayer] + "? \n\n" + "PRESS " + GameControl.SemanticToKeyStr[ SemanticAction.EnterMenu ] + "\nWHEN READY\n" + GameControl.SemanticToKeyStr[ SemanticAction.Cancel ] + "TO CANCEL";
+			string textBlahBlah = GameControl.ModeNames[ State.ReadyToStartMode ] + "\n" + GameControl.PlayerToString[GameControl.instance.NextPlayer] + "? \n\n" + "PRESS " + GameControl.SemanticToKeyStr[ SemanticAction.EnterMenu ] + "\nWHEN READY\n" + GameControl.SemanticToKeyStr[ SemanticAction.Cancel ] + " TO CANCEL";
 			Vector2 readyToStartBoxSize = GUI.skin.box.CalcSize( new GUIContent( textBlahBlah ));
 			readyToStartBoxSize = new Vector2( readyToStartBoxSize.x + (float)(myMP.left + myMP.right)*2, readyToStartBoxSize.y );
 			Vector2 readyToStartBoxPosition = new Vector2 ( Screen.width/2 - readyToStartBoxSize.x/2, Screen.height/2 - readyToStartBoxSize.y/2 );
-			GUI.Box (new Rect(readyToStartBoxSize.x, readyToStartBoxSize.y, readyToStartBoxPosition.x, readyToStartBoxPosition.y), textBlahBlah );
+			GUI.Box (new Rect(readyToStartBoxPosition.x, readyToStartBoxPosition.y, readyToStartBoxSize.x, readyToStartBoxSize.y), textBlahBlah );
 		}
 
 		else if ( GameControl.instance.CurrentMode == State.PlayerMode ) {

@@ -6,12 +6,12 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
 
-public enum State { Splash, BuildMode, TestMode, ReadyToStartMode, PlayerMode, Results, Credits }; 
-public enum SemanticAction { Jump, EnterMenu, Cancel, SwitchMode }; //EnterMenu aka Confirm...
+public enum State { Splash, BuildMode, TestMode, ReadyToStartMode, PlayerMode, IndividualResults, FinalResults, Credits }; 
+public enum SemanticAction { Jump, EnterMenu, Cancel, SwitchMode, Build, Destroy }; //EnterMenu aka Confirm...
 public enum Player { Player1, Player2, None };
 
 
-public class GameControl : MonoBehaviour {
+public class GameControl : MonoBehaviour { 
 
 	public static GameControl instance;
 	public static Dictionary<State, string> ModeNames = new Dictionary<State, string>()
@@ -24,10 +24,13 @@ public class GameControl : MonoBehaviour {
 		{ SemanticAction.Jump, KeyCode.Space },
 		{ SemanticAction.EnterMenu, KeyCode.Return },
 		{ SemanticAction.Cancel, KeyCode.Escape },
-		{ SemanticAction.SwitchMode, KeyCode.Z }
+		{ SemanticAction.SwitchMode, KeyCode.Z },
+		{ SemanticAction.Build, KeyCode.Q },
+		{ SemanticAction.Destroy, KeyCode.E }
 	};
 	public static Dictionary<SemanticAction, string> SemanticToKeyStr = new Dictionary<SemanticAction, string>(){
 		{SemanticAction.EnterMenu, "RETURN KEY" },
+		{SemanticAction.Cancel, "ESCAPE KEY" }
 	};
 	public static Dictionary<Player, string> PlayerToString = new Dictionary<Player, string>(){
 		{ Player.Player1, "PLAYER 1" },
@@ -44,6 +47,8 @@ public class GameControl : MonoBehaviour {
 	public float TimeUsed;
 	private bool allPlayersGone = false;
 	public Dictionary<Player, float> Score = new Dictionary<Player, float>();
+	public List<GameObject> everyDamnTile; //TODO:killmyself
+	public List<GameObject> TileItems;
 
 	//public bool executedSingleAllotement = false;
 
@@ -73,6 +78,18 @@ public class GameControl : MonoBehaviour {
 
 		StartTime = Time.time;
 		TimeUsed = 0;
+		
+		TileItems = new List<GameObject>();
+		 
+		string[] files = Directory.GetFiles( Application.dataPath + "/Resources/Prefabs/Browning/", "*.prefab", SearchOption.AllDirectories );
+ 		foreach(string file in files)
+		{
+			string fileFixed = file.Replace('\\', '/');
+			int startind = Application.dataPath.Length + "/Resources/".Length ;		//D:/Code/Others/GitHub/BuilderBros/Assets/Resources/Tiles/Mario/7-6.png
+			int len = fileFixed.Length - ".prefab".Length - startind;
+			string sub = fileFixed.Substring(startind, len);
+			TileItems.Add (  Resources.Load<GameObject> ( sub ) );
+		}
 	
 	}
 
@@ -102,7 +119,17 @@ public class GameControl : MonoBehaviour {
 	public State SetNextState(){
 		if ( CurrentMode == State.PlayerMode ) {
 			SetNextPlayer();
+			CurrentMode = State.IndividualResults;
+		}
+		else if ( CurrentMode == State.IndividualResults && NextPlayer != Player.None) {
+			SetNextPlayer();
 			CurrentMode = State.BuildMode;
+		}
+		else if ( CurrentMode == State.IndividualResults && NextPlayer == Player.None) {
+			CurrentMode = State.FinalResults;
+		}
+		else if ( CurrentMode == State.FinalResults) {
+			CurrentMode = State.Credits;
 		}
 		return CurrentMode;
 	}

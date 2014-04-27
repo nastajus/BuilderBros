@@ -6,6 +6,7 @@ public class LevelStartMarker : MonoBehaviour {
 	private GameObject Player;
 
 	void Awake(){
+
 		Player = GameObject.FindWithTag("Player");
 		if (Player != null){
 			Player.transform.position = transform.position;
@@ -13,6 +14,10 @@ public class LevelStartMarker : MonoBehaviour {
 		else{
 			Debug.Log ("Level needs Player");
 		}
+		/*
+		GameObject go = (GameObject)Instantiate(Resources.Load ("Prefabs/Characters/Runner"));
+		go.tag = "Player";
+		*/
 	}
 
 	// Update is called once per frame

@@ -7,7 +7,7 @@ using System.IO;
 
 
 public enum State { Splash, BuildMode, TestMode, ReadyToStartMode, PlayerMode, IndividualResults, FinalResults, Credits }; 
-public enum SemanticAction { Jump, EnterMenu, Cancel, SwitchMode, Build, Destroy }; //EnterMenu aka Confirm...
+public enum SemanticAction { Jump, EnterMenu, Cancel, SwitchMode, Build, Destroy, NextItem, PrevItem, SelectItem }; //EnterMenu aka Confirm...
 public enum Player { Player1, Player2, None };
 
 
@@ -24,9 +24,12 @@ public class GameControl : MonoBehaviour {
 		{ SemanticAction.Jump, KeyCode.Space },
 		{ SemanticAction.EnterMenu, KeyCode.Return },
 		{ SemanticAction.Cancel, KeyCode.Escape },
-		{ SemanticAction.SwitchMode, KeyCode.Z },
+		{ SemanticAction.SwitchMode, KeyCode.Tab },
 		{ SemanticAction.Build, KeyCode.Q },
-		{ SemanticAction.Destroy, KeyCode.E }
+		{ SemanticAction.Destroy, KeyCode.E },
+		{ SemanticAction.NextItem, KeyCode.C },
+		{ SemanticAction.PrevItem, KeyCode.Z },
+		{ SemanticAction.SelectItem, KeyCode.X }
 	};
 	public static Dictionary<SemanticAction, string> SemanticToKeyStr = new Dictionary<SemanticAction, string>(){
 		{SemanticAction.EnterMenu, "RETURN KEY" },
@@ -41,6 +44,7 @@ public class GameControl : MonoBehaviour {
 	public State PreviousMode;
 	public Player CurrentPlayer = Player.Player1;
 	public Player NextPlayer = Player.Player2;
+	public int CurrentItem = -1;
 	public int PointsRemaining;
 	public const int PointsMax = 12000;
 	public float StartTime;
@@ -49,6 +53,8 @@ public class GameControl : MonoBehaviour {
 	public Dictionary<Player, float> Score = new Dictionary<Player, float>();
 	public List<GameObject> everyDamnTile; //TODO:killmyself
 	public List<GameObject> TileItems;
+	public List<Sprite> spriteItems;
+
 
 	//public bool executedSingleAllotement = false;
 
@@ -80,16 +86,40 @@ public class GameControl : MonoBehaviour {
 		TimeUsed = 0;
 		
 		TileItems = new List<GameObject>();
-		 
-		string[] files = Directory.GetFiles( Application.dataPath + "/Resources/Prefabs/Browning/", "*.prefab", SearchOption.AllDirectories );
- 		foreach(string file in files)
-		{
-			string fileFixed = file.Replace('\\', '/');
-			int startind = Application.dataPath.Length + "/Resources/".Length ;		//D:/Code/Others/GitHub/BuilderBros/Assets/Resources/Tiles/Mario/7-6.png
-			int len = fileFixed.Length - ".prefab".Length - startind;
-			string sub = fileFixed.Substring(startind, len);
-			TileItems.Add (  Resources.Load<GameObject> ( sub ) );
+
+		List<string> directories = new List<string>();
+		directories.Add( Application.dataPath + "/Resources/Prefabs/Browning/");
+		directories.Add( Application.dataPath + "/Resources/Prefabs/Special/");
+
+		foreach (string directory in directories){ 
+			string[] files = Directory.GetFiles( directory, "*.prefab", SearchOption.TopDirectoryOnly );
+	 		foreach(string file in files)
+			{
+				string fileFixed = file.Replace('\\', '/');
+				int startind = Application.dataPath.Length + "/Resources/".Length ;		//D:/Code/Others/GitHub/BuilderBros/Assets/Resources/Tiles/Mario/7-6.png
+				int len = fileFixed.Length - ".prefab".Length - startind;
+				string sub = fileFixed.Substring(startind, len);
+				TileItems.Add (  Resources.Load<GameObject> ( sub ) );
+			}
 		}
+
+		directories = new List<string>();
+		directories.Add ( Application.dataPath + "/Resources/Tiles/Browning/" );
+		directories.Add ( Application.dataPath + "/Resources/Tiles/Special/" );
+
+		spriteItems = new List<Sprite>();
+		foreach (string directory in directories){ 
+			string[] files = Directory.GetFiles( directory, "*.png", SearchOption.TopDirectoryOnly );
+			foreach(string file in files)
+			{
+				string fileStr = file.Replace('\\', '/');
+				int startind = Application.dataPath.Length + "/Resources/".Length ;		//D:/Code/Others/GitHub/BuilderBros/Assets/Resources/Tiles/Mario/7-6.png
+				int len = fileStr.Length - (".png".Length) - startind;
+				string sub = fileStr.Substring(startind, len);
+				spriteItems.Add ( Resources.Load<Sprite> ( sub ) );
+			}
+		}
+		CurrentItem = 0;
 	
 	}
 
@@ -143,6 +173,18 @@ public class GameControl : MonoBehaviour {
 		else 
 			successState = false;
 		return successState;
+	}
+
+	public void NextItem(){
+		if (CurrentItem + 1 <= spriteItems.Count){
+			CurrentItem++;
+		}
+	}
+
+	public void PrevItem(){
+		if (CurrentItem - 1 >= 0){
+			CurrentItem--;
+		}
 	}
 
 

@@ -88,31 +88,46 @@ public class CharacterControllerScript : MonoBehaviour {
 
 	
 		if (Input.GetKeyDown ( GameControl.SemanticToKey[ SemanticAction.Build ] ) && GameControl.instance.CurrentMode == State.BuildMode ) {
-			//PrefabUtility.CreatePrefab(
-			//GameObject instance = (GameObject)Resources.Load(template, typeof(GameObject));
-			if (facingRight)  x++; else x--;
-			if (goHolder==null){
-				goHolder = new GameObject();
-				goHolder.name = "HoldUserBlocks";
-			}
-			GameObject go = (GameObject)Instantiate( GameControl.instance.TileItems[0], new Vector3( x,y,z) , Quaternion.identity  ); //GameObject instance = (GameObject)
-			go.transform.parent = goHolder.transform;
-			//GameObject temp = Resources.Load<GameObject>("Tiles/Mario/7-7");
-			//Instantiate( instance, transform.position, Quaternion.identity  );
+			DestroyBlock();
+			BuildBlock();
 		}
 
 		else if ( Input.GetKeyDown ( GameControl.SemanticToKey[ SemanticAction.Destroy ]) && GameControl.instance.CurrentMode == State.BuildMode ){
-			if (facingRight)  {x++; xx++;} else {x--; xx--;}
-
-			//detect object at position...
-			Collider2D coll = Physics2D.OverlapArea( new Vector2( x,y ), new Vector2 ( x+xx, y+yy), whatIsGround );
-			if ( coll )
-				Destroy ( coll.transform.gameObject );
-
-
-
+			DestroyBlock();
+		}
+		else if ( Input.GetKeyDown ( GameControl.SemanticToKey[ SemanticAction.NextItem ]) ){
+			GameControl.instance.NextItem();
+		}
+		else if ( Input.GetKeyDown ( GameControl.SemanticToKey[ SemanticAction.PrevItem ]) ){
+			GameControl.instance.PrevItem();
 		}
 	
+	}
+
+	void BuildBlock(){
+		if ( GameControl.instance.TileItems[GameControl.instance.CurrentItem].name == "LevelExitMarker" ){
+			GameObject goExit = GameObject.Find ( "LevelExitMarker");
+			if (goExit != null)
+				Destroy(goExit);
+		}
+
+		if (facingRight)  x++; else x--;
+		if (goHolder==null){
+			goHolder = new GameObject();
+			goHolder.name = "HoldUserBlocks";
+		}
+		GameObject go = (GameObject)Instantiate( GameControl.instance.TileItems[ GameControl.instance.CurrentItem ], new Vector3( x,y,z) , Quaternion.identity  ); //GameObject instance = (GameObject)
+		go.transform.parent = goHolder.transform;
+
+	}
+
+	void DestroyBlock(){
+		if (facingRight)  {x++; xx++;} else {x--; xx--;}
+		
+		//detect object at position...
+		Collider2D coll = Physics2D.OverlapArea( new Vector2( x,y ), new Vector2 ( x+xx, y+yy), whatIsGround );
+		if ( coll )
+			Destroy ( coll.transform.gameObject );
 	}
 
 	void OnDrawGizmos(){

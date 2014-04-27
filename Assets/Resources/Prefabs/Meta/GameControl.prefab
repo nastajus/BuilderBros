@@ -39,7 +39,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentMode: 1
+  PreviousMode: 0
+  CurrentPlayer: 0
+  NextPlayer: 1
+  CurrentItem: -1
   PointsRemaining: 0
+  StartTime: 0
+  TimeUsed: 0
+  everyDamnTile: []
+  TileItems: []
+  spriteItems: []
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -26,7 +26,7 @@ public class GUIScript : MonoBehaviour {
 	
 	private Sprite tex1, tex2, tex3, tex4, tex5, tex6, tex11, tex12, tex13, tex14, tex15, tex16;
 	private Sprite[] textures; //TODO change to List
-	private List<Sprite> sprites;
+
 
 	int outerMargin = 30;
 	Vector2 itemboxSize;
@@ -40,7 +40,7 @@ public class GUIScript : MonoBehaviour {
 	private Vector2 scrollPosition = Vector2.zero;
 	private float scrollMovement;
 
-	void Awake (){
+	void Start (){
 
 		//various initializations
 		toolBarStringsSizes = new Vector2[toolBarStrings.Length];
@@ -48,38 +48,12 @@ public class GUIScript : MonoBehaviour {
 		paddingDefaultUnity = new RectOffset(6,6,3,3);
 		myMP = new RectOffset( marginDefaultUnity.left + paddingDefaultUnity.left, marginDefaultUnity.right + paddingDefaultUnity.right, 
 		                       marginDefaultUnity.top + paddingDefaultUnity.top, marginDefaultUnity.bottom + paddingDefaultUnity.bottom );
-		sprites = new List<Sprite>();
-
-
-		List<string> itemFullFolderPaths = new List<string>();
-		itemFullFolderPaths.Add ( Application.dataPath + "/Resources/Browning/" );
-		//itemFullFolderPaths.Add ( Application.dataPath + "/Resources/Special/" );
-		//itemFullFolderPaths.Add ( Application.dataPath + "/Resources/New/" );
-		//itemFullFolderPaths.Add ( Application.dataPath + "/Resources/Meta/" );
-
-		//List<string> itemFiles = new List<string>();
-		string[] rawItemFiles;
-
-		//for (int i = 0; i < itemFullFolderPaths.Count; i++){
-			//itemFiles.Add( 
-			rawItemFiles = Directory.GetFiles( Application.dataPath + "/Resources/Tiles/Browning/", "*.png", SearchOption.AllDirectories );
-			foreach(string rawItemFileChild in rawItemFiles)
-			{
-				string rawItemFileChildStr = rawItemFileChild.Replace('\\', '/');
-				int startind = Application.dataPath.Length + "/Resources/".Length ;		//D:/Code/Others/GitHub/BuilderBros/Assets/Resources/Tiles/Mario/7-6.png
-				int len = rawItemFileChildStr.Length - (".png".Length) - startind;
-				string sub = rawItemFileChildStr.Substring(startind, len);
-				//items loaded
-				//Debug.Log ( sub );
-				Sprite tempSprite = Resources.Load<Sprite> ( sub );
-				sprites.Add ( tempSprite);
-			}
-		//}
+		
 
 		itemboxSize = new Vector2( 100, 100 );
 		toolboxSize = new Vector2( 350, itemboxSize.y + 100 );
 		toolboxPosition = new Vector2 ( Screen.width - toolboxSize.x - outerMargin, (float)outerMargin ); 
-		toolboxContentsSize = new Vector2( sprites.Count * itemboxSize.x, itemboxSize.y );
+		toolboxContentsSize = new Vector2( GameControl.instance.spriteItems.Count * itemboxSize.x, itemboxSize.y );
 		scrollMovement = (itemboxSize.x + innerMargin) *3.33f; //80f;
 
 
@@ -132,13 +106,13 @@ public class GUIScript : MonoBehaviour {
 
 
 			scrollPosition = GUI.BeginScrollView(new Rect(toolboxPosition.x + innerMargin, toolboxPosition.y + innerMargin*3, toolboxSize.x-innerMargin*2, toolboxSize.y-innerMargin*4), scrollPosition, new Rect(0, 0, toolboxContentsSize.x, toolboxContentsSize.y));
-				for (int i = 0; i < sprites.Count; i++){
+				for (int i = 0; i < GameControl.instance.spriteItems.Count; i++){
 					GUI.Box (new Rect( i*(itemboxSize.x+innerMargin), 0, itemboxSize.x, itemboxSize.y), "");
 					//check size?
-					Vector2 scaledSize = ScaleToFit( new Vector2(sprites[i].texture.width, sprites[i].texture.height), new Vector2(itemboxSize.x - borderSize*2, itemboxSize.y - borderSize*2) );
+					Vector2 scaledSize = ScaleToFit( new Vector2(GameControl.instance.spriteItems[i].texture.width, GameControl.instance.spriteItems[i].texture.height), new Vector2(itemboxSize.x - borderSize*2, itemboxSize.y - borderSize*2) );
 
 					//Vector2 scaledSize = ScaleToFit( new Vector2(textures[i].texture.width, textures[i].texture.height), new Vector2(itemboxSize.x - borderSize*2, itemboxSize.y - borderSize*2) );
-					GUI.DrawTexture(new Rect( (i*(itemboxSize.x+innerMargin))+(itemboxSize.x/2-sprites[i].texture.width/2/4), itemboxSize.y/2-sprites[i].texture.height/2/4, scaledSize.x/4, scaledSize.y/4 ), sprites[i].texture, ScaleMode.ScaleToFit );
+					GUI.DrawTexture(new Rect( (i*(itemboxSize.x+innerMargin))+(itemboxSize.x/2-GameControl.instance.spriteItems[i].texture.width/2/4), itemboxSize.y/2-GameControl.instance.spriteItems[i].texture.height/2/4, scaledSize.x/4, scaledSize.y/4 ), GameControl.instance.spriteItems[i].texture, ScaleMode.ScaleToFit );
 					//GUI.DrawTexture(new Rect( i*(itemboxSize.x+innerMargin), 0, itemboxSize.x, itemboxSize.y), textures[i].texture, ScaleMode.ScaleAndCrop );
 					Vector2 v = GUI.skin.label.CalcSize( new GUIContent( "-4000" ));
 					GUI.Label(new Rect( i*(itemboxSize.x+innerMargin)+itemboxSize.x/2 - v.x/2, itemboxSize.y+innerMargin, itemboxSize.x, itemboxSize.y), "-4000" );

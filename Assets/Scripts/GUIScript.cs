@@ -69,7 +69,7 @@ public class GUIScript : MonoBehaviour {
 		GUI.skin.box.fontSize = 20;
 
 		Vector2 metricPosition = new Vector2( outerMargin, outerMargin );
-		Vector2 metricSize = GUI.skin.label.CalcSize ( new GUIContent( "POINTS: " + GameControl.PointsMax ) );	//this is the larger of this or time
+		Vector2 metricSize = GUI.skin.box.CalcSize ( new GUIContent( "POINTS: " + GameControl.PointsMax ) );	//this is the larger of this or time
 		metricSize = new Vector2( metricSize.x + (float)(myMP.left + myMP.right)*2, metricSize.y );
 
 		if (GameControl.instance.CurrentMode == State.BuildMode || GameControl.instance.CurrentMode == State.TestMode) {
@@ -136,7 +136,7 @@ public class GUIScript : MonoBehaviour {
 
 
 			string modeText =  GameControl.PlayerToString[GameControl.instance.CurrentPlayer] + "\n" + GameControl.ModeNames[GameControl.instance.CurrentMode];
-			Vector2 modeSize = GUI.skin.label.CalcSize ( new GUIContent( modeText ) ); 
+			Vector2 modeSize = GUI.skin.box.CalcSize ( new GUIContent( modeText ) ); 
 			modeSize = new Vector2( modeSize.x + (float)(myMP.left + myMP.right)*2, modeSize.y );
 			Vector2 modePosition = new Vector2( Screen.width/2 - modeSize.x/2, outerMargin );
 			GUI.Box (new Rect(modePosition.x, modePosition.y, modeSize.x, modeSize.y), modeText);
@@ -182,11 +182,11 @@ public class GUIScript : MonoBehaviour {
 
 		else if ( GameControl.instance.CurrentMode == State.ReadyToStartMode ){
 			//Vector2 readyToStartBoxSize = new Vector2 ( 300, 200 ); 
-			string textBlahBlah = GameControl.ModeNames[ State.ReadyToStartMode ] + "\n" + GameControl.PlayerToString[GameControl.instance.NextPlayer] + "? \n\n" + "PRESS " + GameControl.SemanticToKeyStr[ SemanticAction.EnterMenu ] + "\nWHEN READY\n" + GameControl.SemanticToKeyStr[ SemanticAction.Cancel ] + "TO CANCEL";
+			string textBlahBlah = GameControl.ModeNames[ State.ReadyToStartMode ] + "\n" + GameControl.PlayerToString[GameControl.instance.NextPlayer] + "? \n\n" + "PRESS " + GameControl.SemanticToKeyStr[ SemanticAction.EnterMenu ] + "\nWHEN READY\n" + GameControl.SemanticToKeyStr[ SemanticAction.Cancel ] + " TO CANCEL";
 			Vector2 readyToStartBoxSize = GUI.skin.box.CalcSize( new GUIContent( textBlahBlah ));
 			readyToStartBoxSize = new Vector2( readyToStartBoxSize.x + (float)(myMP.left + myMP.right)*2, readyToStartBoxSize.y );
 			Vector2 readyToStartBoxPosition = new Vector2 ( Screen.width/2 - readyToStartBoxSize.x/2, Screen.height/2 - readyToStartBoxSize.y/2 );
-			GUI.Box (new Rect(readyToStartBoxSize.x, readyToStartBoxSize.y, readyToStartBoxPosition.x, readyToStartBoxPosition.y), textBlahBlah );
+			GUI.Box (new Rect(readyToStartBoxPosition.x, readyToStartBoxPosition.y, readyToStartBoxSize.x, readyToStartBoxSize.y), textBlahBlah );
 		}
 
 		else if ( GameControl.instance.CurrentMode == State.PlayerMode ) {
@@ -197,12 +197,14 @@ public class GUIScript : MonoBehaviour {
 			GUI.Box (new Rect(metricPosition.x, metricPosition.y, metricSize.x, metricSize.y), "TIME: " + text );
 
 			string modeText =  "GO: " + GameControl.PlayerToString[GameControl.instance.CurrentPlayer] + "!!";
-			Vector2 modeSize = GUI.skin.label.CalcSize ( new GUIContent( modeText ) ); 
+			Vector2 modeSize = GUI.skin.box.CalcSize ( new GUIContent( modeText ) ); 
 			modeSize = new Vector2( modeSize.x + (float)(myMP.left + myMP.right)*2, modeSize.y );
 			Vector2 modePosition = new Vector2( Screen.width/2 - modeSize.x/2, outerMargin );
 			GUI.Box (new Rect(modePosition.x, modePosition.y, modeSize.x, modeSize.y), modeText);
 
 		}
+
+		//else if ( GameControl.instance.CurrentMode == State.PlayerMode && col
 
 
 

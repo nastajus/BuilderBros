@@ -10731,7 +10731,11 @@ Transform:
   m_PrefabInternal: {fileID: 1025950877}
   m_GameObject: {fileID: 403007473}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+<<<<<<< HEAD
   m_LocalPosition: {x: 164.372086, y: 1.47626615, z: 0}
+=======
+  m_LocalPosition: {x: -2.66428471, y: 5.0535202, z: 0}
+>>>>>>> 6567d0e3b8ba3645293a6e37c1ab85e393052866
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -16440,6 +16444,49 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_Sprite: {fileID: 21300000, guid: 7ab971f7b6429814093ea5419b44ef87, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+<<<<<<< HEAD
+=======
+--- !u!1001 &663701426
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400000, guid: b4fd29621263e90469cdd823172ad2be, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -2.66428471
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b4fd29621263e90469cdd823172ad2be, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 5.0535202
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b4fd29621263e90469cdd823172ad2be, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b4fd29621263e90469cdd823172ad2be, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b4fd29621263e90469cdd823172ad2be, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b4fd29621263e90469cdd823172ad2be, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b4fd29621263e90469cdd823172ad2be, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: b4fd29621263e90469cdd823172ad2be, type: 2}
+  m_RootGameObject: {fileID: 403007473}
+  m_IsPrefabParent: 0
+  m_IsExploded: 1
+>>>>>>> 6567d0e3b8ba3645293a6e37c1ab85e393052866
 --- !u!1 &666478777
 GameObject:
   m_ObjectHideFlags: 0

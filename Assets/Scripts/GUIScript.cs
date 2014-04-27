@@ -72,7 +72,10 @@ public class GUIScript : MonoBehaviour {
 		Vector2 metricSize = GUI.skin.box.CalcSize ( new GUIContent( "POINTS: " + GameControl.PointsMax ) );	//this is the larger of this or time
 		metricSize = new Vector2( metricSize.x + (float)(myMP.left + myMP.right)*2, metricSize.y );
 
-		if (GameControl.instance.CurrentMode == State.BuildMode || GameControl.instance.CurrentMode == State.TestMode) {
+		if ( GameControl.instance.CurrentMode == State.Splash ){
+			GUI.DrawTexture( new Rect(0,0,Screen.width,Screen.height), Resources.Load<Sprite> ("Tiles/Meta/Splashscreen" ).texture, ScaleMode.ScaleToFit );
+		}
+		else if (GameControl.instance.CurrentMode == State.BuildMode || GameControl.instance.CurrentMode == State.TestMode) {
 
 
 
@@ -204,6 +207,7 @@ public class GUIScript : MonoBehaviour {
 
 		}
 
+		/*
 		else if ( GameControl.instance.CurrentMode == State.IndividualResults  ) {
 
 			int roundedUsedSeconds = Mathf.FloorToInt(GameControl.instance.TimeUsed);
@@ -218,20 +222,30 @@ public class GUIScript : MonoBehaviour {
 
 
 		}
+		*/
+		/*
+		else if ( GameControl.instance.CurrentMode == State.FinalResults ){
+			GUI.DrawTexture( new Rect(0,0,Screen.width,Screen.height), Resources.Load<Sprite> ("Prefabs/Meta/Clipboard" ).texture, ScaleMode.ScaleToFit );
+		}
+		*/
 
 //		else if ( GameControl.instance.CurrentMode == State.BuildMode && Player.None ) {
 //
 //
 //
-//	}
+	}
 
 
-//	void Update(){
+	void Update(){
 
 		//GameControl.instance.TimeUsed = Time.time - GameControl.instance.StartTime;
 
 		//conditions that affect this OnGUI on next frame
-		if (Input.GetKeyDown( GameControl.SemanticToKey[ SemanticAction.EnterMenu ] ) && GameControl.instance.CurrentMode != State.ReadyToStartMode && GameControl.instance.NextPlayer != Player.None ){
+		if (Input.GetKeyDown( GameControl.SemanticToKey[ SemanticAction.EnterMenu ] ) && GameControl.instance.CurrentMode == State.Splash ){
+			GameControl.instance.PreviousMode = GameControl.instance.CurrentMode;
+			GameControl.instance.CurrentMode = State.BuildMode;
+		}
+		else if (Input.GetKeyDown( GameControl.SemanticToKey[ SemanticAction.EnterMenu ] ) && GameControl.instance.CurrentMode != State.ReadyToStartMode && GameControl.instance.NextPlayer != Player.None ){
 			GameControl.instance.PreviousMode = GameControl.instance.CurrentMode;
 			GameControl.instance.CurrentMode = State.ReadyToStartMode;
 		}
@@ -247,6 +261,10 @@ public class GUIScript : MonoBehaviour {
 		else if ( Input.GetKeyDown( GameControl.SemanticToKey[ SemanticAction.SwitchMode ] )  && (GameControl.instance.CurrentMode == State.BuildMode || GameControl.instance.CurrentMode == State.TestMode) ){
 			GameControl.instance.OppositeMode();
 		}
+		else if ( Input.GetKeyDown ( KeyCode.P ) ){
+			GameControl.instance.CurrentMode = State.FinalResults;
+		}
+
 
 	}
 

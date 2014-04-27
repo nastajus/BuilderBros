@@ -40,7 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfb3c0f3221dab0498f26d92c39cbab8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 400006, guid: e45a26efbd9267844b5d26cac0190eeb, type: 2}
+  player: {fileID: 0}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfb3c0f3221dab0498f26d92c39cbab8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 400006, guid: a6d28c5967d30e44eb6425d3c98a8a3e, type: 2}
+  player: {fileID: 0}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

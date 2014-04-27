@@ -71,7 +71,7 @@ public class GameControl : MonoBehaviour {
 
 
 		PointsRemaining = PointsMax;
-		//CurrentMode = GameState.TestMode;
+		CurrentMode = State.Splash;
 
 		Load();
 
@@ -152,12 +152,12 @@ public class GameControl : MonoBehaviour {
 	}
 
 	public State SetNextState(){
-		if ( CurrentMode == State.PlayerMode ) {
-			SetNextPlayer();
+		//if ( CurrentMode == State.PlayerMode ) {
+		//	SetNextPlayer();
 			//TODO: fix this! TimeUsed = StartTime - Time.time;
-			CurrentMode = State.IndividualResults;
-		}
-		else if ( CurrentMode == State.IndividualResults && NextPlayer != Player.None) {
+		//	CurrentMode = State.IndividualResults;
+		//}
+		if ( CurrentMode == State.IndividualResults && NextPlayer != Player.None) {
 			SetNextPlayer();
 			CurrentMode = State.BuildMode;
 		}
@@ -166,6 +166,7 @@ public class GameControl : MonoBehaviour {
 		}
 		else if ( CurrentMode == State.FinalResults) {
 			CurrentMode = State.Credits;
+			Instantiate( Resources.Load<Sprite>("Prefabs/Meta/Clipboard"));
 		}
 		return CurrentMode;
 	}

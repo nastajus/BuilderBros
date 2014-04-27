@@ -204,16 +204,31 @@ public class GUIScript : MonoBehaviour {
 
 		}
 
-		//else if ( GameControl.instance.CurrentMode == State.PlayerMode && col
+		else if ( GameControl.instance.CurrentMode == State.IndividualResults  ) {
+
+			int roundedUsedSeconds = Mathf.FloorToInt(GameControl.instance.TimeUsed);
+			int displaySeconds = roundedUsedSeconds % 60;
+			int displayMinutes = roundedUsedSeconds / 60; 
+			string leTime = string.Format ("{0}:{1:00}", displayMinutes, displaySeconds); 
+			string modeText =  "LEVEL FINISHED, " + GameControl.PlayerToString[GameControl.instance.CurrentPlayer] + "!!" + "\n" + "TIME TAKEN: " + leTime ;
+			Vector2 modeSize = GUI.skin.box.CalcSize ( new GUIContent( modeText ) ); 
+			modeSize = new Vector2( modeSize.x + (float)(myMP.left + myMP.right)*2, modeSize.y );
+			Vector2 modePosition = new Vector2( Screen.width/2 - modeSize.x/2, outerMargin );
+			GUI.Box (new Rect(modePosition.x, modePosition.y, modeSize.x, modeSize.y), modeText);
 
 
+		}
 
-	}
+//		else if ( GameControl.instance.CurrentMode == State.BuildMode && Player.None ) {
+//
+//
+//
+//	}
 
 
-	void Update(){
+//	void Update(){
 
-		GameControl.instance.TimeUsed = Time.time - GameControl.instance.StartTime;
+		//GameControl.instance.TimeUsed = Time.time - GameControl.instance.StartTime;
 
 		//conditions that affect this OnGUI on next frame
 		if (Input.GetKeyDown( GameControl.SemanticToKey[ SemanticAction.EnterMenu ] ) && GameControl.instance.CurrentMode != State.ReadyToStartMode && GameControl.instance.NextPlayer != Player.None ){

@@ -54,6 +54,7 @@ public class GameControl : MonoBehaviour {
 	public List<GameObject> everyDamnTile; //TODO:killmyself
 	public List<GameObject> TileItems;
 	public List<Sprite> spriteItems;
+	public float penaltyTime = 0f;
 
 
 	//public bool executedSingleAllotement = false;
@@ -123,6 +124,10 @@ public class GameControl : MonoBehaviour {
 	
 	}
 
+	void Update(){
+		TimeUsed = Time.time - StartTime + penaltyTime;
+	}
+
 	public State OppositeMode(){
 		if ( CurrentMode == State.BuildMode ){
 			CurrentMode = State.TestMode;
@@ -149,6 +154,7 @@ public class GameControl : MonoBehaviour {
 	public State SetNextState(){
 		if ( CurrentMode == State.PlayerMode ) {
 			SetNextPlayer();
+			//TODO: fix this! TimeUsed = StartTime - Time.time;
 			CurrentMode = State.IndividualResults;
 		}
 		else if ( CurrentMode == State.IndividualResults && NextPlayer != Player.None) {

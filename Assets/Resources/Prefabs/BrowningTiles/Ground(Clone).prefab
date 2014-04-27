@@ -9,10 +9,12 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 212: {fileID: 21200000}
-  - 114: {fileID: 11400000}
-  - 58: {fileID: 5800000}
+  - 68: {fileID: 6800006}
+  - 68: {fileID: 6800004}
+  - 68: {fileID: 6800002}
+  - 68: {fileID: 6800000}
   m_Layer: 0
-  m_Name: Basic_Enemy.fw
+  m_Name: Ground(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,32 +27,58 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 34.5244026, y: 8.55299854, z: 0}
+  m_LocalPosition: {x: 6, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
---- !u!58 &5800000
-CircleCollider2D:
+--- !u!68 &6800000
+EdgeCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_Material: {fileID: 6200000, guid: 0d18f0696ee91144895f9ce326d05408, type: 2}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: -.5, y: .5}
+  - {x: -.5, y: -.5}
+--- !u!68 &6800002
+EdgeCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_Material: {fileID: 6200000, guid: 0d18f0696ee91144895f9ce326d05408, type: 2}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: .5, y: .5}
+  - {x: .5, y: -.5}
+--- !u!68 &6800004
+EdgeCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Radius: .5
-  m_Center: {x: 0, y: 0}
---- !u!114 &11400000
-MonoBehaviour:
+  m_IsTrigger: 0
+  m_Points:
+  - {x: -.5, y: -.5}
+  - {x: .5, y: -.5}
+--- !u!68 &6800006
+EdgeCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7164b4672713e942ba0ed0c77855558, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: -.5, y: .5}
+  - {x: .5, y: .5}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -72,7 +100,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortingLayerID: 0
-  m_Sprite: {fileID: 21300000, guid: cc2a29dc816ea2e47b6466498aede206, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ad5a7350c87ebff44bb5386ad6552c3f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:

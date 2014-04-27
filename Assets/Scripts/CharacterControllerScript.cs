@@ -56,6 +56,7 @@ public class CharacterControllerScript : MonoBehaviour {
 			}
 		//}
 
+<<<<<<< HEAD
 	}
 	
 	// Update is called once per frame
@@ -72,7 +73,25 @@ public class CharacterControllerScript : MonoBehaviour {
 				rigidbody2D.AddForce(new Vector2(0, jumpForce / 50.0f)); 
 			}
 		//}
+=======
+		if (grounded && Input.GetKeyDown(KeyCode.Space)){
+			anim.SetBool ("Ground", false);
+			rigidbody2D.AddForce(new Vector2(0, jumpForce)); 
+		}
+		
+		if (!grounded && Input.GetKey(KeyCode.Space)){
+			//anim.SetBool ("Ground", false);
+			rigidbody2D.AddForce(new Vector2(0, jumpForce / 50.0f)); 
+		}
+>>>>>>> fd9b60fc94f13072fe1e271258b8aeb0fe3a3afd
 	}
+	
+	// Update is called once per frame
+	//void Update () {
+
+	
+
+	//}
 
 
 	void Flip(){

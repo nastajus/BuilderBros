@@ -54,22 +54,23 @@ public class CharacterControllerScript : MonoBehaviour {
 			Flip();
 		}
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
 		if (grounded && Input.GetKeyDown(KeyCode.Space)){
 			anim.SetBool ("Ground", false);
 			rigidbody2D.AddForce(new Vector2(0, jumpForce)); 
 		}
-	
+		
 		if (!grounded && Input.GetKey(KeyCode.Space)){
 			//anim.SetBool ("Ground", false);
 			rigidbody2D.AddForce(new Vector2(0, jumpForce / 50.0f)); 
 		}
-
 	}
+	
+	// Update is called once per frame
+	//void Update () {
+
+	
+
+	//}
 
 
 	void Flip(){

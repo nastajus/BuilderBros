@@ -93,7 +93,7 @@ public class GameControl : MonoBehaviour {
 		directories.Add( Application.dataPath + "/Resources/Prefabs/Special/");
 
 		foreach (string directory in directories){ 
-			string[] files = Directory.GetFiles( directory, "*.prefab", SearchOption.TopDirectoryOnly );
+			string[] files = Directory.GetFiles( directory, "*.prefab");//, SearchOption.TopDirectoryOnly );
 	 		foreach(string file in files)
 			{
 				string fileFixed = file.Replace('\\', '/');
@@ -110,7 +110,7 @@ public class GameControl : MonoBehaviour {
 
 		spriteItems = new List<Sprite>();
 		foreach (string directory in directories){ 
-			string[] files = Directory.GetFiles( directory, "*.png", SearchOption.TopDirectoryOnly );
+			string[] files = Directory.GetFiles( directory, "*.png");//, SearchOption.TopDirectoryOnly );
 			foreach(string file in files)
 			{
 				string fileStr = file.Replace('\\', '/');

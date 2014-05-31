@@ -15,7 +15,7 @@ public class LevelExitMarker : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D collision){
 		if ( collision.tag == "Player" && ( GameControl.instance.CurrentMode != State.BuildMode ||  GameControl.instance.CurrentMode != State.TestMode ) ){
 			GameControl.instance.SetNextState();
-			Destroyer.ReloadLevel();
+			GameControl.ReloadLevel();
 			/*
 			if ( !GameControl.instance.ScoreAdd() && !GameControl.instance.Score.ContainsKey( GameControl.instance.CurrentPlayer ) ){
 				Destroyer.ReloadLevel();

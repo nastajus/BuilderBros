@@ -64,6 +64,13 @@ public class CharacterControllerScript : MonoBehaviour {
 			Flip();
 		}
 		
+
+
+	}
+	
+	// Update is called once per frame
+	void Update () {
+
 		if (grounded && Input.GetKeyDown(KeyCode.Space)){
 			anim.SetBool ("Ground", false);
 			rigidbody2D.AddForce(new Vector2(0, jumpForce)); 
@@ -73,13 +80,9 @@ public class CharacterControllerScript : MonoBehaviour {
 			//anim.SetBool ("Ground", false);
 			rigidbody2D.AddForce(new Vector2(0, jumpForce / 50.0f)); 
 		}
+		
 
 
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
 		x = Mathf.RoundToInt(transform.position.x); 
 		xx=0;
 		y = Mathf.RoundToInt(transform.position.y);
@@ -105,12 +108,6 @@ public class CharacterControllerScript : MonoBehaviour {
 	}
 
 	void BuildBlock(){
-		if ( GameControl.instance.TileItems[GameControl.instance.CurrentItem].name == "LevelExitMarker" ){
-			GameObject goExit = GameObject.Find ( "LevelExitMarker");
-			if (goExit != null)
-				Destroy(goExit);
-		}
-
 		if (facingRight)  x++; else x--;
 		if (goHolder==null){
 			goHolder = new GameObject();
@@ -118,6 +115,8 @@ public class CharacterControllerScript : MonoBehaviour {
 		}
 		GameObject go = (GameObject)Instantiate( GameControl.instance.TileItems[ GameControl.instance.CurrentItem ], new Vector3( x,y,z) , Quaternion.identity  ); //GameObject instance = (GameObject)
 		go.transform.parent = goHolder.transform;
+
+		GameControl.instance.PushUserGO(go);
 
 	}
 

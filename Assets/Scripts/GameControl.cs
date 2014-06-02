@@ -60,88 +60,83 @@ public class GameControl : MonoBehaviour {
 	public List<Sprite> spriteItems;
 	public float penaltyTime = 0f;
 	private GameObject goHolder; //TODO: this is a duplicate, remove other.
+	//bool firstExecution = true;
 
 	//public bool executedSingleAllotement = false;
 
 
 
 	void Awake() {
+
+		// the first time it creates the singleton
 		if(instance==null){
 			DontDestroyOnLoad(gameObject);
 			instance = this;
+
+			PointsRemaining = PointsMax;
+			//CurrentMode = GameState.TestMode;
+			
+			//Load();
+			
+			//detect if level contains LevelStartMarker & LevelExitMarker
+			GameObject exit = GameObject.Find ( "LevelExitMarker");
+			GameObject start = GameObject.Find ( "LevelStartMarker");
+			
+			if (exit == null) Debug.Log ("Level needs Exit Marker present");
+			if (start == null) Debug.Log ("Level needs Start Marker present");
+			
+			
+			StartTime = Time.time;
+			TimeUsed = 0;
+			
+			TileItems = new List<GameObject>();
+			
+			List<string> directories = new List<string>();
+			directories.Add( Application.dataPath + "/Resources/Prefabs/Browning/");
+			directories.Add( Application.dataPath + "/Resources/Prefabs/Special/");
+			
+			foreach (string directory in directories){ 
+				string[] files = Directory.GetFiles( directory, "*.prefab", SearchOption.TopDirectoryOnly );
+				foreach(string file in files)
+				{
+					string fileFixed = file.Replace('\\', '/');
+					int startind = Application.dataPath.Length + "/Resources/".Length ;		//D:/Code/Others/GitHub/BuilderBros/Assets/Resources/Tiles/Mario/7-6.png
+					int len = fileFixed.Length - ".prefab".Length - startind;
+					string sub = fileFixed.Substring(startind, len);
+					TileItems.Add (  Resources.Load<GameObject> ( sub ) );
+				}
+			}
+			
+			directories = new List<string>();
+			directories.Add ( Application.dataPath + "/Resources/Tiles/Browning/" );
+			directories.Add ( Application.dataPath + "/Resources/Tiles/Special/" );
+			
+			spriteItems = new List<Sprite>();
+			foreach (string directory in directories){ 
+				string[] files = Directory.GetFiles( directory, "*.png", SearchOption.TopDirectoryOnly );
+				foreach(string file in files)
+				{
+					string fileStr = file.Replace('\\', '/');
+					int startind = Application.dataPath.Length + "/Resources/".Length ;		//D:/Code/Others/GitHub/BuilderBros/Assets/Resources/Tiles/Mario/7-6.png
+					int len = fileStr.Length - (".png".Length) - startind;
+					string sub = fileStr.Substring(startind, len);
+					spriteItems.Add ( Resources.Load<Sprite> ( sub ) );
+				}
+			}
+			CurrentItem = 0;
+			
+			UserCreatedGONames = new List<string>();
+			UserCreatedGOx = new List<float>();
+			UserCreatedGOy = new List<float>();
+			UserCreatedGOz = new List<float>();
 		}
 		else if (instance != this){
 			Destroy(gameObject);
 		}
 
-
-		PointsRemaining = PointsMax;
-		//CurrentMode = GameState.TestMode;
-
-		//Load();
-
-		//detect if level contains LevelStartMarker & LevelExitMarker
-		GameObject exit = GameObject.Find ( "LevelExitMarker");
-		GameObject start = GameObject.Find ( "LevelStartMarker");
-
-		if (exit == null) Debug.Log ("Level needs Exit Marker present");
-		if (start == null) Debug.Log ("Level needs Start Marker present");
-
-
-		StartTime = Time.time;
-		TimeUsed = 0;
-		
-		TileItems = new List<GameObject>();
-
-		List<string> directories = new List<string>();
-		directories.Add( Application.dataPath + "/Resources/Prefabs/Browning/");
-		directories.Add( Application.dataPath + "/Resources/Prefabs/Special/");
-
-		foreach (string directory in directories){ 
-			string[] files = Directory.GetFiles( directory, "*.prefab", SearchOption.TopDirectoryOnly );
-	 		foreach(string file in files)
-			{
-				string fileFixed = file.Replace('\\', '/');
-				int startind = Application.dataPath.Length + "/Resources/".Length ;		//D:/Code/Others/GitHub/BuilderBros/Assets/Resources/Tiles/Mario/7-6.png
-				int len = fileFixed.Length - ".prefab".Length - startind;
-				string sub = fileFixed.Substring(startind, len);
-				TileItems.Add (  Resources.Load<GameObject> ( sub ) );
-			}
-		}
-
-		directories = new List<string>();
-		directories.Add ( Application.dataPath + "/Resources/Tiles/Browning/" );
-		directories.Add ( Application.dataPath + "/Resources/Tiles/Special/" );
-
-		spriteItems = new List<Sprite>();
-		foreach (string directory in directories){ 
-			string[] files = Directory.GetFiles( directory, "*.png", SearchOption.TopDirectoryOnly );
-			foreach(string file in files)
-			{
-				string fileStr = file.Replace('\\', '/');
-				int startind = Application.dataPath.Length + "/Resources/".Length ;		//D:/Code/Others/GitHub/BuilderBros/Assets/Resources/Tiles/Mario/7-6.png
-				int len = fileStr.Length - (".png".Length) - startind;
-				string sub = fileStr.Substring(startind, len);
-				spriteItems.Add ( Resources.Load<Sprite> ( sub ) );
-			}
-		}
-		CurrentItem = 0;
-
-		UserCreatedGONames = new List<string>();
-		UserCreatedGOx = new List<float>();
-		UserCreatedGOy = new List<float>();
-		UserCreatedGOz = new List<float>();
-
-		if (first)
-		{
-			first = false;
-		}
-		else
-		{
-			//Load();
-		}
+		//DON'T PUT ANYTHING HERE AFTER IF STATEMENT, will execute every time level loaded (or more?!), DTRAN
+	
 	}
-	bool first = true;
 
 	public State OppositeMode(){
 		if ( CurrentMode == State.BuildMode ){
@@ -242,7 +237,12 @@ public class GameControl : MonoBehaviour {
 		bf.Serialize(file, data);
 		file.Close();
 	}
-	
+
+	public void OnLevelWasLoaded()
+	{
+		GameControl.instance.Load();
+	}
+
 	public void Load(){
 		if (  File.Exists (Application.persistentDataPath + "/gameInfo.dat") ){
 			BinaryFormatter bf = new BinaryFormatter();
@@ -282,9 +282,9 @@ public class GameControl : MonoBehaviour {
 			}
 			else {
 				UserCreatedGONames = new List<string>();
-				//UserCreatedGOx = new List<float>();
-				//UserCreatedGOy = new List<float>();
-				//UserCreatedGOz = new List<float>();
+				UserCreatedGOx = new List<float>();
+				UserCreatedGOy = new List<float>();
+				UserCreatedGOz = new List<float>();
 			}
 		}
 	}

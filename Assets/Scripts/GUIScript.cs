@@ -253,7 +253,7 @@ public class GUIScript : MonoBehaviour {
 			GameControl.instance.SetNextPlayer();
 			GameControl.instance.CurrentMode = State.PlayerMode;
 			GameControl.instance.StartTime = Time.time;
-			Destroyer.ReloadLevel();
+			GameControl.ReloadLevel();
 		}
 		else if (Input.GetKeyDown( GameControl.SemanticToKey[ SemanticAction.Cancel ] ) && GameControl.instance.CurrentMode == State.ReadyToStartMode ){
 			GameControl.instance.CurrentMode = GameControl.instance.PreviousMode;

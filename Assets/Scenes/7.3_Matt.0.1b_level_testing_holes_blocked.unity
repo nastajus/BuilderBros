@@ -10456,7 +10456,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &403007474
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10488,7 +10488,7 @@ SpriteRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 1025950877}
   m_GameObject: {fileID: 403007473}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_LightmapIndex: 255
@@ -24964,6 +24964,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: b4fd29621263e90469cdd823172ad2be, type: 2}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 21200000, guid: b4fd29621263e90469cdd823172ad2be, type: 2}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -28824,7 +28828,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1166904174}
-  - 114: {fileID: 1166904173}
   m_Layer: 0
   m_Name: LevelDesignerGO
   m_TagString: Untagged
@@ -28832,21 +28835,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1166904173
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400000, guid: 0c5c452f47e414b4b9ed8350912ffb18,
-    type: 2}
-  m_PrefabInternal: {fileID: 1247755871}
-  m_GameObject: {fileID: 1166904172}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4404f650bef227847a0c4c24d94b782a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gizmoPosition: {x: 134, y: -4}
-  depth: 1
-  prefab: {fileID: 100000, guid: f5049c37ebfa8b34b9621d947d0ab1dd, type: 2}
 --- !u!4 &1166904174
 Transform:
   m_ObjectHideFlags: 0
@@ -30624,7 +30612,8 @@ Prefab:
       propertyPath: prefab
       value: 
       objectReference: {fileID: 100000, guid: f5049c37ebfa8b34b9621d947d0ab1dd, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11400000, guid: 0c5c452f47e414b4b9ed8350912ffb18, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 0c5c452f47e414b4b9ed8350912ffb18, type: 2}
   m_RootGameObject: {fileID: 1166904172}
   m_IsPrefabParent: 0
@@ -31264,57 +31253,6 @@ MonoBehaviour:
   PointsRemaining: 0
   StartTime: 0
   TimeUsed: 0
-  everyDamnTile:
-  - {fileID: 100000, guid: 337ff491f421c6d40b70554978234de3, type: 2}
-  - {fileID: 100000, guid: 28280bc455964a54483bd18c4c4cf14b, type: 2}
-  - {fileID: 100000, guid: 9b43619bdd0bf914fad2028a4eb9939f, type: 2}
-  - {fileID: 100000, guid: 129504d5214fab24184fa69838a2f654, type: 2}
-  - {fileID: 100000, guid: 9b64ed45fffdb8346894cd69b5142a0f, type: 2}
-  - {fileID: 100000, guid: e6fa1daa96d9e7b48bc5d051a6dccfeb, type: 2}
-  - {fileID: 100000, guid: fe5d222636bb7994c9a0944bb825fcdf, type: 2}
-  - {fileID: 100000, guid: 2012bfb34b57c5143b4c10faa14c5f33, type: 2}
-  - {fileID: 100000, guid: cb5a0af19f3301840b4e630e95f8f879, type: 2}
-  - {fileID: 100000, guid: bbf0cda9ab314564f96e578f00e65941, type: 2}
-  - {fileID: 100000, guid: 2ecf004623fb3bc478da80ba3dc0a2b8, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   TileItems: []
   spriteItems: []
   penaltyTime: 0
@@ -43392,8 +43330,8 @@ Transform:
   - {fileID: 66388162}
   - {fileID: 676372668}
   - {fileID: 1468277691}
-  - {fileID: 2065343424}
   - {fileID: 64319315}
+  - {fileID: 2065343424}
   - {fileID: 1363415461}
   - {fileID: 566023845}
   - {fileID: 22764551}
@@ -43432,10 +43370,10 @@ Transform:
   - {fileID: 1972874570}
   - {fileID: 884990700}
   - {fileID: 1733258799}
+  - {fileID: 339041078}
   - {fileID: 70626861}
   - {fileID: 1329111843}
   - {fileID: 560945864}
-  - {fileID: 339041078}
   - {fileID: 94652086}
   - {fileID: 2038043301}
   - {fileID: 592607682}
@@ -43522,10 +43460,10 @@ Transform:
   - {fileID: 1787519284}
   - {fileID: 1319294250}
   - {fileID: 1292525367}
-  - {fileID: 1288731920}
-  - {fileID: 1780312263}
   - {fileID: 1677833826}
+  - {fileID: 1288731920}
   - {fileID: 1741469540}
+  - {fileID: 1780312263}
   - {fileID: 1168042158}
   - {fileID: 1503575154}
   - {fileID: 1144271217}
@@ -43543,9 +43481,9 @@ Transform:
   - {fileID: 512403170}
   - {fileID: 680458391}
   - {fileID: 1142813209}
-  - {fileID: 1740145912}
   - {fileID: 1438607426}
   - {fileID: 2032390679}
+  - {fileID: 1740145912}
   - {fileID: 1420220110}
   - {fileID: 1141431207}
   - {fileID: 480601280}

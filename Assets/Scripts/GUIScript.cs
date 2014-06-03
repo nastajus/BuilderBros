@@ -176,26 +176,26 @@ public class GUIScript : MonoBehaviour {
 				string[] modBoxStrings = { "SAVE\nMOD", "LOAD\nMOD", "DESTROY\nMOD", "TOGGLE\nMOD" };
 
 				Vector2 modBoxItemSize = GUI.skin.button.CalcSize( new GUIContent( modBoxStrings[2] ) ); //TODO: MINOR: make utility method to algorithmically get largest string automatically here. hardcoded so don't care.
-				modBoxItemSize += new Vector2( (float)(myMP.left + myMP.right)*0, (float)(myMP.top + myMP.bottom)*0 );
-				Vector2 modBoxSize = new Vector2 ( modBoxItemSize.x*modBoxStrings.Length + innerMargin*(modBoxStrings.Length+1), modBoxItemSize.y+innerMargin);
+				//modBoxItemSize += new Vector2( (float)(myMP.left + myMP.right)*0, (float)(myMP.top + myMP.bottom)*0 );
+				Vector2 modBoxSize = new Vector2 ( modBoxItemSize.x + innerMargin, modBoxItemSize.y*modBoxStrings.Length + innerMargin*(modBoxStrings.Length+1));
 				Vector2 modBoxPosition = new Vector2 ( outerMargin, Screen.height - outerMargin - modBoxSize.y );
 
-				//horizontal grouped along bottom
+				//vertically grouped along left side
 				GUI.BeginGroup(new Rect(modBoxPosition.x, modBoxPosition.y, modBoxSize.x, modBoxSize.y));
 				//TODO: MEDIUM: Bind these to SemanticActions
-				if ( GUI.Button(new Rect(innerMargin*1, innerMargin, modBoxItemSize.x, modBoxItemSize.y), modBoxStrings[0]) ) { 
+				if ( GUI.Button(new Rect(innerMargin*1, innerMargin*1, modBoxItemSize.x, modBoxItemSize.y), modBoxStrings[0]) ) { 
 					GameControl.instance.Save(); 
 					//needs fullscreen message here... should i use game states??? nahhh..
 				}
-				if ( GUI.Button(new Rect(innerMargin*2 + modBoxItemSize.x*1, innerMargin, modBoxItemSize.x, modBoxItemSize.y), modBoxStrings[1]) ) { //load
+				if ( GUI.Button(new Rect(innerMargin*1, innerMargin*2 + modBoxItemSize.y*1, modBoxItemSize.x, modBoxItemSize.y), modBoxStrings[1]) ) { //load
 					GameControl.instance.Load(); 
 				}
-				if ( GUI.Button(new Rect(innerMargin*3 + modBoxItemSize.x*2, innerMargin, modBoxItemSize.x, modBoxItemSize.y), modBoxStrings[2]) ) { //destroy
+				if ( GUI.Button(new Rect(innerMargin*1, innerMargin*3 + modBoxItemSize.y*2, modBoxItemSize.x, modBoxItemSize.y), modBoxStrings[2]) ) { //destroy
 					Destroy ( GameControl.goHolder );
 					//TODO: STOP DISTASTEFUL COUPLING: now I have another static object outside this class, the "goHolder". YUCK. BUT THIS IS LAZY & QUICK.
 					//magic here... umm... pretend file doesn't exist? 
 				}
-				if ( GUI.Button(new Rect(innerMargin*4 + modBoxItemSize.x*3, innerMargin, modBoxItemSize.x, modBoxItemSize.y), modBoxStrings[3]) ) { //toggle
+				if ( GUI.Button(new Rect(innerMargin*1, innerMargin*4 + modBoxItemSize.y*3, modBoxItemSize.x, modBoxItemSize.y), modBoxStrings[3]) ) { //toggle
 					//GameControl.instance.Toggle(); //why doesn't recognize this?
 					//magic here... umm... pretend file doesn't exist? 
 				}

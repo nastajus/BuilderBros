@@ -48,35 +48,36 @@ public class CharacterControllerScript : MonoBehaviour {
 		
 		//if (!sidecollided)
 		//	rigidbody2D.velocity = new Vector2( move * maxSpeed, rigidbody2D.velocity.y);
-		
-		if (sidecollided && !grounded)
-		{
-			rigidbody2D.velocity = new Vector2( 0 , rigidbody2D.velocity.y);
-		}
-		else
-		{
-			rigidbody2D.velocity = new Vector2( move * maxSpeed, rigidbody2D.velocity.y);
-		}
-		
-		if (move > 0 && !facingRight){
-			Flip();
-		} else if (move < 0 && facingRight){
-			Flip();
-		}
-		
 
-
+		if ( GameControl.instance.CurrentMode == State.BuildMode ||  GameControl.instance.CurrentMode == State.TestMode ){
+			if (sidecollided && !grounded )
+			{
+				rigidbody2D.velocity = new Vector2( 0 , rigidbody2D.velocity.y);
+			}
+			else
+			{
+				rigidbody2D.velocity = new Vector2( move * maxSpeed, rigidbody2D.velocity.y);
+			}
+			
+			if (move > 0 && !facingRight){
+				Flip();
+			} else if (move < 0 && facingRight){
+				Flip();
+			} 
+		}	
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if (grounded && Input.GetKeyDown(KeyCode.Space)){
+		//TODO: SHORTCIRCUIT IF TOO HIGH, MANUALLY IF NECESSARY, AT PERCENTAGE HEIGHT.
+		//NOTE: uses both GetKeyDown AND GetKey .. should know why exactly!
+		if (grounded && Input.GetKeyDown( GameControl.SemanticToKey[ SemanticAction.Jump ] )){
 			anim.SetBool ("Ground", false);
 			rigidbody2D.AddForce(new Vector2(0, jumpForce)); 
 		}
 		
-		if (!grounded && Input.GetKey(KeyCode.Space)){
+		if (!grounded && Input.GetKey( GameControl.SemanticToKey[ SemanticAction.Jump ] )){
 			//anim.SetBool ("Ground", false);
 			rigidbody2D.AddForce(new Vector2(0, jumpForce / 50.0f)); 
 		}
@@ -91,8 +92,15 @@ public class CharacterControllerScript : MonoBehaviour {
 
 	
 		if (Input.GetKeyDown ( GameControl.SemanticToKey[ SemanticAction.Build ] ) && GameControl.instance.CurrentMode == State.BuildMode ) {
-			DestroyBlock();
-			BuildBlock();
+
+			if ( GameControl.instance.PointsRemaining >= GameValues.items[ GameControl.instance.CurrentItem ] ){
+				DestroyBlock();
+				BuildBlock();
+				GameControl.instance.PointsRemaining -= GameValues.items[ GameControl.instance.CurrentItem ];
+			}
+			else {
+				//WHINE TO USER? or just be silent letting them wonder why they cannot build...?
+			}
 		}
 
 		else if ( Input.GetKeyDown ( GameControl.SemanticToKey[ SemanticAction.Destroy ]) && GameControl.instance.CurrentMode == State.BuildMode ){
@@ -109,10 +117,7 @@ public class CharacterControllerScript : MonoBehaviour {
 
 	void BuildBlock(){
 		if (facingRight)  x++; else x--;
-		if (goHolder==null){
-			goHolder = new GameObject();
-			goHolder.name = "HoldUserBlocks";
-		}
+		goHolder = GameControl.instance.CreateHolder(); //TODO: MINOR: refactor this probably...
 		GameObject go = (GameObject)Instantiate( GameControl.instance.TileItems[ GameControl.instance.CurrentItem ], new Vector3( x,y,z) , Quaternion.identity  ); //GameObject instance = (GameObject)
 		go.transform.parent = goHolder.transform;
 
@@ -125,13 +130,34 @@ public class CharacterControllerScript : MonoBehaviour {
 		
 		//detect object at position...
 		Collider2D coll = Physics2D.OverlapArea( new Vector2( x,y ), new Vector2 ( x+xx, y+yy), whatIsGround );
-		if ( coll )
+		if ( coll ){
 			Destroy ( coll.transform.gameObject );
+			//search toolbox items for match.. if yes woohoo reclaim those points!!... um by magic of hardcoding indxes
+
+			//coll.name
+
+			//TODO: Ask Dual Team ZackDante if better way to write this:
+			if (coll.name.Contains("(Clone)"))
+			{
+				string targetName = ""; 
+				targetName = (coll.name).Substring(0, (coll.name).Length - "(Clone)".Length ) ;
+				GameObject match = GameControl.instance.TileItems.Find(
+					dingus => dingus.name == targetName
+				);
+				if (match != null) 
+				{ 
+					int indexMatch = GameControl.instance.TileItems.IndexOf(match);
+					//return points
+					GameControl.instance.PointsRemaining += GameValues.items[indexMatch];
+				}
+			}
+		}
 	}
 
 	void OnDrawGizmos(){
 		Gizmos.DrawLine( new Vector3( x,y,z), new Vector3( x+xx,y+yy,z)  );
 	}
+
 
 	/*
 	void OnPostRender(){

@@ -48,14 +48,6 @@ public class GUIScript : MonoBehaviour {
 		paddingDefaultUnity = new RectOffset(6,6,3,3);
 		myMP = new RectOffset( marginDefaultUnity.left + paddingDefaultUnity.left, marginDefaultUnity.right + paddingDefaultUnity.right, 
 		                       marginDefaultUnity.top + paddingDefaultUnity.top, marginDefaultUnity.bottom + paddingDefaultUnity.bottom );
-		
-
-		itemboxSize = new Vector2( 100, 100 );
-		toolboxSize = new Vector2( 350, itemboxSize.y + 100 );
-		toolboxPosition = new Vector2 ( Screen.width - toolboxSize.x - outerMargin, (float)outerMargin ); 
-		toolboxContentsSize = new Vector2( GameControl.instance.spriteItems.Count * itemboxSize.x, itemboxSize.y );
-		scrollMovement = (itemboxSize.x + innerMargin) *3.33f; //80f;
-
 
 		//iterate over the set of all styles in the skin
 		foreach ( GUIStyle childStyle in MenuSkin){
@@ -66,7 +58,7 @@ public class GUIScript : MonoBehaviour {
 	void OnGUI(){
 
 		GUI.skin = MenuSkin;
-		GUI.skin.box.fontSize = 20;
+		GUI.skin.box.fontSize = 20; 
 
 		Vector2 metricPosition = new Vector2( outerMargin, outerMargin );
 		Vector2 metricSize = GUI.skin.box.CalcSize ( new GUIContent( "POINTS: " + GameControl.PointsMax ) );	//this is the larger of this or time
@@ -77,38 +69,42 @@ public class GUIScript : MonoBehaviour {
 		}
 		else if (GameControl.instance.CurrentMode == State.BuildMode || GameControl.instance.CurrentMode == State.TestMode) {
 
+			//top middle
+			string modeText =  GameControl.PlayerToString[GameControl.instance.CurrentPlayer] + "\n" + GameControl.ModeNames[GameControl.instance.CurrentMode];
+			Vector2 modeSize = GUI.skin.box.CalcSize ( new GUIContent( modeText ) ); 
+			modeSize = new Vector2( modeSize.x + (float)(myMP.left + myMP.right)*2, modeSize.y );
+			Vector2 modePosition = new Vector2( Screen.width/2 - modeSize.x/2, outerMargin );
+			GUI.Box (new Rect(modePosition.x, modePosition.y, modeSize.x, modeSize.y), modeText);
 
 
-			///int borderThickness = 5;
-
-			//GUIStyle = GUI.skin.button.
-
-			//add correct padding visually
-			for ( int i = 0; i < toolBarStrings.Length; i++ ){
-				toolBarStringsSizes[i] = GUI.skin.label.CalcSize ( new GUIContent( toolBarStrings[i] ) );
-				toolBarStringsSizes[i] = new Vector2( toolBarStringsSizes[i].x + (float)(myMP.left + myMP.right)*2, toolBarStringsSizes[i].y );
-			}
-			//TODO REENABLE IF NEEDED: int tbWidth = (int)toolBarStringsSizes[0].x * toolBarStringsSizes.Length;
-
-			GUI.Box (new Rect(toolboxPosition.x, toolboxPosition.y, toolboxSize.x, toolboxSize.y), toolboxTitle);
-			GUI.BeginGroup( new Rect(toolboxPosition.x + innerMargin, (Screen.height - toolboxSize.y - outerMargin) + innerMargin, toolboxSize.x - innerMargin*2, toolboxSize.y - innerMargin*2));
-				//toolbarInt = GUI.Toolbar(new Rect(0,10, tbWidth ,30), toolbarInt, toolBarStrings);
-				//GUI.Toolbar( new Rect(), 
-				//selGridInt = GUI.SelectionGrid(new Rect(0,50,200,40), selGridInt, selStrings, 2);
-				//hSliderValue = GUI.HorizontalSlider(new Rect(0,110,100,30), hSliderValue, 0f, 1f);
-				//hSbarValue = GUI.HorizontalSlider(new Rect(0,130,100,30), hSbarValue, 0f, 10f); //1f first
-
-				//GUI.SelectionGrid(new Rect(0,10, tbWidth ,100), 2, textures, 
-
-				///GUI.SelectionGrid vs GUILayout.SelectionGrid.
-							
-				//GUI.DrawTexture(new Rect(0, 70, 100, 100), tex1, ScaleMode.ScaleAndCrop );
-				//GUI.DrawTexture(new Rect(110, 70, 100, 100), tex2, ScaleMode.ScaleAndCrop );
-				//GUI.DrawTexture(new Rect(220, 70, 100, 100), tex3, ScaleMode.ScaleAndCrop );
-			GUI.EndGroup();
+			if ( GameControl.instance.CurrentMode == State.BuildMode ){
 
 
-			scrollPosition = GUI.BeginScrollView(new Rect(toolboxPosition.x + innerMargin, toolboxPosition.y + innerMargin*3, toolboxSize.x-innerMargin*2, toolboxSize.y-innerMargin*4), scrollPosition, new Rect(0, 0, toolboxContentsSize.x, toolboxContentsSize.y));
+				//top right
+
+				itemboxSize = new Vector2( 100, 100 );
+				toolboxSize = new Vector2( 350, itemboxSize.y + 100 );
+				toolboxPosition = new Vector2 ( Screen.width - toolboxSize.x - outerMargin, (float)outerMargin ); 
+				toolboxContentsSize = new Vector2( GameControl.instance.spriteItems.Count * itemboxSize.x, itemboxSize.y );
+				scrollMovement = (itemboxSize.x + innerMargin) *3.33f; //80f;
+
+				///int borderThickness = 5;
+
+				//GUIStyle = GUI.skin.button.
+
+				//add correct padding visually
+				for ( int i = 0; i < toolBarStrings.Length; i++ ){
+					toolBarStringsSizes[i] = GUI.skin.label.CalcSize ( new GUIContent( toolBarStrings[i] ) );
+					toolBarStringsSizes[i] = new Vector2( toolBarStringsSizes[i].x + (float)(myMP.left + myMP.right)*2, toolBarStringsSizes[i].y );
+				}
+				//TODO REENABLE IF NEEDED: int tbWidth = (int)toolBarStringsSizes[0].x * toolBarStringsSizes.Length;
+
+				GUI.Box (new Rect(toolboxPosition.x, toolboxPosition.y, toolboxSize.x, toolboxSize.y), toolboxTitle);
+				GUI.BeginGroup( new Rect(toolboxPosition.x + innerMargin, (Screen.height - toolboxSize.y - outerMargin) + innerMargin, toolboxSize.x - innerMargin*2, toolboxSize.y - innerMargin*2));
+				GUI.EndGroup();
+
+
+				scrollPosition = GUI.BeginScrollView(new Rect(toolboxPosition.x + innerMargin, toolboxPosition.y + innerMargin*3, toolboxSize.x-innerMargin*2, toolboxSize.y-innerMargin*4), scrollPosition, new Rect(0, 0, toolboxContentsSize.x, toolboxContentsSize.y));
 				for (int i = 0; i < GameControl.instance.spriteItems.Count; i++){
 					GUI.Box (new Rect( i*(itemboxSize.x+innerMargin), 0, itemboxSize.x, itemboxSize.y), "");
 					//check size?
@@ -117,69 +113,94 @@ public class GUIScript : MonoBehaviour {
 					//Vector2 scaledSize = ScaleToFit( new Vector2(textures[i].texture.width, textures[i].texture.height), new Vector2(itemboxSize.x - borderSize*2, itemboxSize.y - borderSize*2) );
 					GUI.DrawTexture(new Rect( (i*(itemboxSize.x+innerMargin))+(itemboxSize.x/2-GameControl.instance.spriteItems[i].texture.width/2/4), itemboxSize.y/2-GameControl.instance.spriteItems[i].texture.height/2/4, scaledSize.x/4, scaledSize.y/4 ), GameControl.instance.spriteItems[i].texture, ScaleMode.ScaleToFit );
 					//GUI.DrawTexture(new Rect( i*(itemboxSize.x+innerMargin), 0, itemboxSize.x, itemboxSize.y), textures[i].texture, ScaleMode.ScaleAndCrop );
-					Vector2 v = GUI.skin.label.CalcSize( new GUIContent( "-4000" ));
-					GUI.Label(new Rect( i*(itemboxSize.x+innerMargin)+itemboxSize.x/2 - v.x/2, itemboxSize.y+innerMargin, itemboxSize.x, itemboxSize.y), "-4000" );
+					Vector2 v = GUI.skin.label.CalcSize( new GUIContent( "-" + GameValues.items[i] ));
+					GUI.Label(new Rect( i*(itemboxSize.x+innerMargin)+itemboxSize.x/2 - v.x/2, itemboxSize.y+innerMargin, itemboxSize.x, itemboxSize.y), "-" + GameValues.items[i] );
 				}
-			GUI.EndScrollView();
+				GUI.EndScrollView();
 
 
-			float result = Input.GetAxis("Mouse ScrollWheel");
-			if (result!=0){
-				scrollPosition = new Vector2(scrollPosition.x + result*scrollMovement, scrollPosition.y);
-			}
-
-
-
-			//scrollPosition = GUI.BeginScrollView(new Rect(toolboxPosition.x + innerMargin, toolboxPosition.y + innerMargin*3, toolboxSize.x-innerMargin*2, toolboxSize.y-innerMargin*5), scrollPosition, new Rect(0, 0, 220, 200));
-			//	GUI.Button(new Rect(0, 0, 100, 20), "Top-left");
-			//	GUI.Button(new Rect(120, 0, 100, 20), "Top-right");
-			//	GUI.Button(new Rect(0, 180, 100, 20), "Bottom-left");
-			//	GUI.Button(new Rect(120, 180, 100, 20), "Bottom-right");
-			//GUI.EndScrollView();
-
-
-			string modeText =  GameControl.PlayerToString[GameControl.instance.CurrentPlayer] + "\n" + GameControl.ModeNames[GameControl.instance.CurrentMode];
-			Vector2 modeSize = GUI.skin.box.CalcSize ( new GUIContent( modeText ) ); 
-			modeSize = new Vector2( modeSize.x + (float)(myMP.left + myMP.right)*2, modeSize.y );
-			Vector2 modePosition = new Vector2( Screen.width/2 - modeSize.x/2, outerMargin );
-			GUI.Box (new Rect(modePosition.x, modePosition.y, modeSize.x, modeSize.y), modeText);
+				float result = Input.GetAxis("Mouse ScrollWheel");
+				if (result!=0){
+					scrollPosition = new Vector2(scrollPosition.x + result*scrollMovement, scrollPosition.y);
+				}
 
 
 
+				//scrollPosition = GUI.BeginScrollView(new Rect(toolboxPosition.x + innerMargin, toolboxPosition.y + innerMargin*3, toolboxSize.x-innerMargin*2, toolboxSize.y-innerMargin*5), scrollPosition, new Rect(0, 0, 220, 200));
+				//	GUI.Button(new Rect(0, 0, 100, 20), "Top-left");
+				//	GUI.Button(new Rect(120, 0, 100, 20), "Top-right");
+				//	GUI.Button(new Rect(0, 180, 100, 20), "Bottom-left");
+				//	GUI.Button(new Rect(120, 180, 100, 20), "Bottom-right");
+				//GUI.EndScrollView();
 
-			if ( GameControl.instance.CurrentMode == State.BuildMode || GameControl.instance.CurrentMode == State.TestMode ){
+
+
+				//top left
 				GUI.Box (new Rect(metricPosition.x, metricPosition.y, metricSize.x, metricSize.y), "POINTS: " + GameControl.instance.PointsRemaining );
-			}
 
 
+				//bottom right
+				Vector2 testButtonSize = GUI.skin.button.CalcSize( new GUIContent( "SWITCH TO: \n" + GameControl.ModeNames[ State.TestMode ] ));
+				testButtonSize = new Vector2( testButtonSize.x + (float)(myMP.left + myMP.right)*2, testButtonSize.y );
+				Vector2 buildButtonSize = GUI.skin.button.CalcSize( new GUIContent( "SWITCH TO: \n" + GameControl.ModeNames[ State.BuildMode ] ));
+				buildButtonSize = new Vector2( buildButtonSize.x + (float)(myMP.left + myMP.right)*2, buildButtonSize.y );
+				Vector2 modeSwitchSize;
+				if ( GameControl.instance.CurrentMode == State.BuildMode ){
+					modeSwitchSize = testButtonSize;
+				}
+				else if ( GameControl.instance.CurrentMode == State.TestMode ){
+					modeSwitchSize = buildButtonSize;
+				}
+				else { 
+					modeSwitchSize = testButtonSize; 
+				}
+				Vector2 modeSwitchPosition = new Vector2( Screen.width - modeSwitchSize.x - outerMargin, Screen.height - modeSwitchSize.y - outerMargin );
+				if ( GUI.Button (new Rect(modeSwitchPosition.x, modeSwitchPosition.y, modeSwitchSize.x, modeSwitchSize.y), "SWITCH TO: \n" + GameControl.ModeNames[GameControl.instance.CurrentMode]) ) {
+					GameControl.instance.OppositeMode();
+				}
 
-			Vector2 testButtonSize = GUI.skin.button.CalcSize( new GUIContent( "SWITCH TO: \n" + GameControl.ModeNames[ State.TestMode ] ));
-			testButtonSize = new Vector2( testButtonSize.x + (float)(myMP.left + myMP.right)*2, testButtonSize.y );
-			Vector2 buildButtonSize = GUI.skin.button.CalcSize( new GUIContent( "SWITCH TO: \n" + GameControl.ModeNames[ State.BuildMode ] ));
-			buildButtonSize = new Vector2( buildButtonSize.x + (float)(myMP.left + myMP.right)*2, buildButtonSize.y );
-			Vector2 modeSwitchSize;
-			if ( GameControl.instance.CurrentMode == State.BuildMode ){
-				modeSwitchSize = testButtonSize;
-			}
-			else if ( GameControl.instance.CurrentMode == State.TestMode ){
-				modeSwitchSize = buildButtonSize;
-			}
-			else { 
-				modeSwitchSize = testButtonSize; 
-			}
-			Vector2 modeSwitchPosition = new Vector2( Screen.width - modeSwitchSize.x - outerMargin, Screen.height - modeSwitchSize.y - outerMargin );
-			if ( GUI.Button (new Rect(modeSwitchPosition.x, modeSwitchPosition.y, modeSwitchSize.x, modeSwitchSize.y), "SWITCH TO: \n" + GameControl.ModeNames[GameControl.instance.CurrentMode]) ) {
-				GameControl.instance.OppositeMode();
-			}
+				/*
+				if(rectModeSwitch.Contains(Event.current.mouseDown))
+					//Debug.Log("rectModeSwitch");
+					Debug.Log ( Event.current );
+				else
+					Debug.Log("no rect");
 
-			/*
-			if(rectModeSwitch.Contains(Event.current.mouseDown))
-				//Debug.Log("rectModeSwitch");
-				Debug.Log ( Event.current );
-			else
-				Debug.Log("no rect");
+				*/
 
-			*/
+				//bottom left
+				//save mods
+				//delete mods
+				//toggle on/off mods
+				//mods == modifications
+				string[] modBoxStrings = { "SAVE\nMOD", "LOAD\nMOD", "DESTROY\nMOD", "TOGGLE\nMOD" };
+
+				Vector2 modBoxItemSize = GUI.skin.button.CalcSize( new GUIContent( modBoxStrings[2] ) ); //TODO: MINOR: make utility method to algorithmically get largest string automatically here. hardcoded so don't care.
+				modBoxItemSize += new Vector2( (float)(myMP.left + myMP.right)*0, (float)(myMP.top + myMP.bottom)*0 );
+				Vector2 modBoxSize = new Vector2 ( modBoxItemSize.x*modBoxStrings.Length + innerMargin*(modBoxStrings.Length+1), modBoxItemSize.y+innerMargin);
+				Vector2 modBoxPosition = new Vector2 ( outerMargin, Screen.height - outerMargin - modBoxSize.y );
+
+				//horizontal grouped along bottom
+				GUI.BeginGroup(new Rect(modBoxPosition.x, modBoxPosition.y, modBoxSize.x, modBoxSize.y));
+				//TODO: MEDIUM: Bind these to SemanticActions
+				if ( GUI.Button(new Rect(innerMargin*1, innerMargin, modBoxItemSize.x, modBoxItemSize.y), modBoxStrings[0]) ) { 
+					GameControl.instance.Save(); 
+					//needs fullscreen message here... should i use game states??? nahhh..
+				}
+				if ( GUI.Button(new Rect(innerMargin*2 + modBoxItemSize.x*1, innerMargin, modBoxItemSize.x, modBoxItemSize.y), modBoxStrings[1]) ) { //load
+					GameControl.instance.Load(); 
+				}
+				if ( GUI.Button(new Rect(innerMargin*3 + modBoxItemSize.x*2, innerMargin, modBoxItemSize.x, modBoxItemSize.y), modBoxStrings[2]) ) { //destroy
+					Destroy ( GameControl.goHolder );
+					//TODO: STOP DISTASTEFUL COUPLING: now I have another static object outside this class, the "goHolder". YUCK. BUT THIS IS LAZY & QUICK.
+					//magic here... umm... pretend file doesn't exist? 
+				}
+				if ( GUI.Button(new Rect(innerMargin*4 + modBoxItemSize.x*3, innerMargin, modBoxItemSize.x, modBoxItemSize.y), modBoxStrings[3]) ) { //toggle
+					//GameControl.instance.Toggle(); //why doesn't recognize this?
+					//magic here... umm... pretend file doesn't exist? 
+				}
+				GUI.EndGroup();
+			}
 
 		}
 

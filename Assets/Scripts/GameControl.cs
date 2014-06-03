@@ -59,7 +59,7 @@ public class GameControl : MonoBehaviour {
 	public List<GameObject> TileItems;
 	public List<Sprite> spriteItems;
 	public float penaltyTime = 0f;
-	private GameObject goHolder; //TODO: this is a duplicate, remove other.
+	public static GameObject goHolder;
 	//bool firstExecution = true;
 
 	//public bool executedSingleAllotement = false;
@@ -238,11 +238,6 @@ public class GameControl : MonoBehaviour {
 		file.Close();
 	}
 
-	public void OnLevelWasLoaded()
-	{
-		GameControl.instance.Load();
-	}
-
 	public void Load(){
 		if (  File.Exists (Application.persistentDataPath + "/gameInfo.dat") ){
 			BinaryFormatter bf = new BinaryFormatter();
@@ -261,13 +256,8 @@ public class GameControl : MonoBehaviour {
 
 			//instantiate list based off raw data because GO not serializeable
 
-			goHolder = GameObject.Find("HoldUserBlocks");
-			if (goHolder==null){
-				goHolder = new GameObject();
-				goHolder.name = "HoldUserBlocks";
-			}
-
 			if ( UserCreatedGONames != null ){
+				goHolder = GameControl.instance.CreateHolder();
 				for (int i = 0; i < UserCreatedGONames.Count; i++){
 
 					float x = UserCreatedGOx[i];
@@ -276,7 +266,7 @@ public class GameControl : MonoBehaviour {
 					string folder = "Prefabs/Browning/";
 					string loadme = (folder + UserCreatedGONames[i]).Substring(0, (folder + UserCreatedGONames[i]).Length - "(Clone)".Length ) ;
 					GameObject go = (GameObject)Instantiate( Resources.Load ( loadme ) , new Vector3( x,y,z) , Quaternion.identity  );  
-					//go.transform.parent = goHolder.transform;
+					go.transform.parent = goHolder.transform;
 
 				}
 			}
@@ -301,6 +291,20 @@ public class GameControl : MonoBehaviour {
 		Application.LoadLevel( levelName );
 		//the tomb of bug
 	}
+	
+	public void OnLevelWasLoaded()
+	{
+		GameControl.instance.Load();
+	}
+
+	public GameObject CreateHolder(){
+		if (goHolder==null){
+			goHolder = new GameObject();
+			goHolder.name = "HoldUserBlocks";
+		}
+		return goHolder;
+	}
+
 }
 
 [Serializable]
@@ -317,4 +321,9 @@ class GameData{
 	public List<float> UserCreatedGOz;
 
 
+}
+
+//TODO: decide if this is better as another data type, i.e. a struct?
+class GameValues{
+	public static int[] items = { 100,200,300,400,500,500,500,500,500,500,1000,1000,1000, 2000,2000 };
 }

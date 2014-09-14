@@ -44762,6 +44762,7 @@ MonoBehaviour:
   TileItems: []
   spriteItems: []
   penaltyTime: 0
+  rewardTime: 0
 --- !u!4 &1691923360
 Transform:
   m_ObjectHideFlags: 0

@@ -59,6 +59,8 @@ public class GameControl : MonoBehaviour {
 	public List<GameObject> TileItems;
 	public List<Sprite> spriteItems;
 	public float penaltyTime = 0f;
+	public float rewardTime = 0f;
+	public const float rewardAmount = 5f;
 	public static GameObject goHolder;
 	//bool firstExecution = true;
 
@@ -136,6 +138,10 @@ public class GameControl : MonoBehaviour {
 
 		//DON'T PUT ANYTHING HERE AFTER IF STATEMENT, will execute every time level loaded (or more?!), DTRAN
 	
+	}
+
+	void Update(){
+
 	}
 
 	public State OppositeMode(){
